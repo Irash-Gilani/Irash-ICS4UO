@@ -1,0 +1,12 @@
+U1L5 Review
+# 1: The code will take the length inputted and square it, giving the product as area
+# 3: When I inputted 2, the code squared the number into 4, stated the answer and stopped
+# 4: 
+
+import math
+print("Area of a Norman Window shape")
+rad = input("Input the circle's radius: ")
+rad = float(rad)
+area = ((0.5*math.pi(math.pow(rad, 2))) + 4*math.pow(rad, 2))
+print("Area is:", area)
+
