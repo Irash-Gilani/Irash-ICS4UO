@@ -1,0 +1,7 @@
+# U1L6 Review
+birthyear = int(input("Enter your year of birth: "))
+age = int(input("Enter your age: "))
+result = (birthyear * 2) + 5
+result = (result * 50) + age
+result = (result - 250) / 100
+print("Your birthyear plus your age as a decimal is", result)
