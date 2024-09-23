@@ -3,10 +3,14 @@ B = [0] * 7
 
 # Add your code here!
 
-for validx in range(len(A)):
-  shiftedval = A[validx % 2]
-  B[validx] = shiftedval
-
+for val in range(2, len(A) + 2):
+  
+  mod = val % 7
+  
+  shiftedval = mod
+  
+  B[mod] = A[val - 2]
+ 
 print(B)
 
 # unfinished
