@@ -1,0 +1,12 @@
+A = [2, 8, 6, 3, 9, 1, 7]
+B = [0] * 7
+
+# Add your code here!
+
+for validx in range(len(A)):
+  shiftedval = A[validx % 2]
+  B[validx] = shiftedval
+
+print(B)
+
+# unfinished
