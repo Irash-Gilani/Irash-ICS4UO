@@ -1,0 +1,23 @@
+# Part 1
+inches = 10 ** 12
+
+(feet, inches) = divmod(inches, 12)
+(yards, feet) = divmod(feet, 3)
+(miles, yards) = divmod(yards, 1760)
+(earthmoondist, miles) = divmod(miles, 238855)
+print("One trillion inches is the same as going to the moon and back")
+print("%d times, plus and extra %d miles, %d yards, %d feet, and %d inches" % (earthmoondist, miles, yards, feet, inches))
+
+# Part 3
+def toLower(letter):
+  if 65 <= ord(letter) <= 90:
+    unival = ord(letter)
+    lower = (chr(unival + 32))
+    return lower
+  else:
+    print("Error. Not an uppercase letter.")
+    return " "
+  
+  
+uplet = input("Input an uppercase letter: ")
+print(toLower(uplet))
