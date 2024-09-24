@@ -3,14 +3,9 @@ B = [0] * 7
 
 # Add your code here!
 
-for val in range(2, len(A) + 2):
+for val in range(len(A)):
   
-  mod = val % 7
-  
-  shiftedval = mod
-  
-  B[mod] = A[val - 2]
+  mod = (val + 2) % 7
+  B[val] = A[mod]
  
 print(B)
-
-# unfinished
