@@ -1,0 +1,11 @@
+little =   {"hairy":"rat", "clever":"bat", "slow":"cod", "bare":"ant", "quick":"cat"}
+midsized = {"hairy":"ewe", "clever":"fox", "slow":"pig", "bare":"eel", "quick":"doe"}
+large =    {"hairy":"gnu", "clever":"ape", "slow":"cow", "bare":"elephant", "quick":"nag"}
+
+animals = {"little": little, "midsized": midsized, "large": large} 
+
+for sizes in animals:
+  size = animals[sizes]
+  for traits in size:
+    print(size[traits], end=" ")
+  print("")
