@@ -1,0 +1,40 @@
+# linear search function
+def linsearch(arr):
+  twentycount = 0
+  twentyfivecount = 0
+  sixtycount = 0
+  seventyfourcount = 0
+  ninetysevencount = 0
+  for val in range(0, len(arr)):
+    if arr[val] == 20:
+      twentycount += 1
+      print("20 in index", val)
+    if arr[val] == 25:
+      twentyfivecount += 1
+      print("25 in index", val)
+    if arr[val] == 60:
+      sixtycount += 1
+      print("60 in index", val)
+    if arr[val] == 74:
+      seventyfourcount += 1
+      print("74 in index", val)
+    if arr[val] == 97:
+      ninetysevencount += 1
+      print("97 in index", val)
+  if twentycount == 0:
+    print("20 not found in array.")
+  if twentyfivecount == 0:
+    print("25 not found in array.")
+  if sixtycount == 0:
+    print("60 not found in array.")
+  if seventyfourcount == 0:
+    print("74 not found in array.")
+  if ninetysevencount == 0:
+    print("97 not found in array.")
+      
+# your main code here
+myArr = [20, 20, 24, 27, 39, 40, 43, 46, 50, 
+         60, 60, 62, 71, 74, 76, 86, 86, 87, 97, 97]
+         
+linsearch(myArr)
+
