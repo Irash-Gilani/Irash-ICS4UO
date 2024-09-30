@@ -1,0 +1,23 @@
+import math
+
+A = [3, 2, 0, -1]
+B = [5, 7, 8, 4]
+
+resultant = [0] * 4
+
+for count in range(len(resultant)):
+  resultant[count] = A[count] + B[count]
+  
+print("Resultant of A and B is", resultant)
+
+def magnitude(matrix):
+  mag = 0
+  for val in matrix:
+    mag += math.pow(val, 2)
+  
+  mag = math.sqrt(mag)
+  
+  return mag
+
+print("Magnitude A + Magnitude B = ", magnitude(A) + magnitude(B))
+  
