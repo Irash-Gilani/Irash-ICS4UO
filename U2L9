@@ -1,0 +1,37 @@
+a1 = [2, 7, 6]
+a2 = [9, 5, 1]
+a3 = [4, 3, 8]
+Magic3 = [a1, a2, a3] # an array of arrays
+
+def checkmagic(squarearr):
+  squareismagic = True
+  
+  sum = 0
+  tempsum = 0
+  
+  
+  # checking rows
+  for rownum in range(0, len(squarearr)):
+    
+    print(tempsum, sum)
+    
+    if tempsum != sum:
+      squareismagic = False
+    
+    tempsum = 0
+    
+    for columnnum in range(0, len(squarearr[0])):
+      if rownum == 0:
+        sum += squarearr[rownum][columnnum]
+      tempsum += squarearr[rownum][columnnum]
+      
+
+  
+  if squareismagic == True:
+    return "square is magic"
+  else:
+    return "square is not magic"
+    
+print(checkmagic(Magic3))
+
+# unfinished
