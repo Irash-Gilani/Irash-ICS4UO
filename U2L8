@@ -20,4 +20,21 @@ def magnitude(matrix):
   return mag
 
 print("Magnitude A + Magnitude B = ", magnitude(A) + magnitude(B))
+print("Magnitude of A + B =", magnitude(resultant))
+
+def dotprod(vecA, vecB):
+  product = 0
+  for count in range(len(vecA)):
+    product += vecA[count] * vecB[count]
+  return product
   
+print("dot product of A and B is", dotprod(A, B))
+
+def radtodeg(radian):
+  degrees = (radian)*(180 / math.pi)
+  return degrees
+  
+  
+print("Angle between A and B is", radtodeg(math.acos(dotprod(A, B) / (magnitude(A)*magnitude(B)))), "degrees")
+
+print("dot product of A with itself is", dotprod(A, A), "and the magnitude of A squared is", math.pow(magnitude(A), 2) )
