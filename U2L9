@@ -11,26 +11,68 @@ def checkmagic(squarearr):
   
   
   # checking rows
-  for rownum in range(0, len(squarearr)):
+  print("row check")
+  for rownum in range(len(squarearr)):
     
+    tempsum = 0
+    
+    for columnnum in range(len(squarearr[0])):
+      if rownum == 0:
+        sum += squarearr[rownum][columnnum]
+      tempsum += squarearr[rownum][columnnum]
+      
     print(tempsum, sum)
     
     if tempsum != sum:
       squareismagic = False
     
+    
+  #checking columns
+  print("column check")
+  sum = 0
+  for columnnum in range(len(squarearr)):
+    
     tempsum = 0
     
-    for columnnum in range(0, len(squarearr[0])):
-      if rownum == 0:
+    for rownum in range(len(squarearr[0])):
+      if columnnum == 0:
         sum += squarearr[rownum][columnnum]
       tempsum += squarearr[rownum][columnnum]
       
-
+    print(tempsum, sum)
+    
+    if tempsum != sum:
+      squareismagic = False
+      
+  # checking diagonals
+  
+  print("diagonal check")
+  LtoRsum = 0
+  RtoLsum = 0
+  
+  # retrieves diagonal count from left to right
+  print("left to right")
+  for diagcount in range(len(squarearr)):
+    
+    LtoRsum += squarearr[diagcount][diagcount]
+    print(LtoRsum)
+    
+  # retrieves diagonal count from right to left, then compares with first count
+  print("right to left")
+  for diagcount in range(len(squarearr) - 1, -1, -1):
+    RtoLsum += squarearr[diagcount][diagcount]
+    print(RtoLsum)
+    
+  if LtoRsum != rtoLsum:
+    squareismagic = False
+    
   
   if squareismagic == True:
     return "square is magic"
   else:
     return "square is not magic"
+    
+  
     
 print(checkmagic(Magic3))
 
