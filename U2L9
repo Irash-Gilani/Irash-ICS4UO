@@ -63,17 +63,47 @@ def checkmagic(squarearr):
     RtoLsum += squarearr[diagcount][diagcount]
     print(RtoLsum)
     
-  if LtoRsum != rtoLsum:
+  if LtoRsum != RtoLsum:
     squareismagic = False
     
   
   if squareismagic == True:
-    return "square is magic"
+    return ("square is magic, magic number is %d" % sum)
   else:
     return "square is not magic"
     
   
     
 print(checkmagic(Magic3))
+      
+print("adding 5 to all values:")
 
-# unfinished
+def add5(arr):
+  for rownum in range(len(arr)):
+    for columnnum in range(len(arr[0])):
+      arr[rownum][columnnum] += 5
+  
+  return arr
+      
+print(checkmagic(add5(Magic3)))
+
+def sub2(arr):
+  for rownum in range(len(arr)):
+    for columnnum in range(len(arr[0])):
+      arr[rownum][columnnum] -= 2
+  
+  return arr
+  
+print("Subtracting 2 from all values:")
+print(checkmagic(sub2(Magic3)))
+
+def mult4(arr):
+  for rownum in range(len(arr)):
+    for columnnum in range(len(arr[0])):
+      arr[rownum][columnnum] *= 4
+  
+  return arr
+
+
+print("Multiplying all values by 4:")
+print(checkmagic(mult4(Magic3)))
