@@ -72,38 +72,46 @@ def checkmagic(squarearr):
   else:
     return "square is not magic"
     
+def add5(arr):
+  temparr1 = [0] * len(arr[0])
+  temparr2 = [0] * len(arr[0])
+  temparr3 = [0] * len(arr[0])
+  temparr = [temparr1, temparr2, temparr3]
+  for rownum in range(len(arr)):
+    for columnnum in range(len(arr[0])):
+      temparr[rownum][columnnum] = arr[rownum][columnnum] + 5
   
+  return temparr
+
+def sub2(arr):
+  temparr1 = [0] * len(arr[0])
+  temparr2 = [0] * len(arr[0])
+  temparr3 = [0] * len(arr[0])
+  temparr = [temparr1, temparr2, temparr3]
+  for rownum in range(len(arr)):
+    for columnnum in range(len(arr[0])):
+      temparr[rownum][columnnum] = arr[rownum][columnnum] - 2
+  
+  return temparr
+
+def mult4(arr):
+  temparr1 = [0] * len(arr[0])
+  temparr2 = [0] * len(arr[0])
+  temparr3 = [0] * len(arr[0])
+  temparr = [temparr1, temparr2, temparr3]
+  for rownum in range(len(arr)):
+    for columnnum in range(len(arr[0])):
+      temparr[rownum][columnnum] = arr[rownum][columnnum] * 4
+  
+  return temparr
     
 print(checkmagic(Magic3))
       
-print("adding 5 to all values:")
-
-def add5(arr):
-  for rownum in range(len(arr)):
-    for columnnum in range(len(arr[0])):
-      arr[rownum][columnnum] += 5
-  
-  return arr
-      
+print("Adding 5 to all values:")
 print(checkmagic(add5(Magic3)))
 
-def sub2(arr):
-  for rownum in range(len(arr)):
-    for columnnum in range(len(arr[0])):
-      arr[rownum][columnnum] -= 2
-  
-  return arr
-  
 print("Subtracting 2 from all values:")
 print(checkmagic(sub2(Magic3)))
-
-def mult4(arr):
-  for rownum in range(len(arr)):
-    for columnnum in range(len(arr[0])):
-      arr[rownum][columnnum] *= 4
-  
-  return arr
-
 
 print("Multiplying all values by 4:")
 print(checkmagic(mult4(Magic3)))
