@@ -1,0 +1,113 @@
+def addM(M1, M2):
+    # M1 and M2 are arrays
+    # should return an array which is the sum of M1 + M2
+    sumarr1 = [0] * len(M1[0])
+    sumarr2 = [0] * len(M1[0])
+    sumarr3 = [0] * len(M1[0])
+    sumarr = (sumarr1, sumarr2, sumarr3)
+    
+    for rownum in range(len(M1)):
+      for columnnum in range(len(M1[0])):
+        sumarr[rownum][columnnum] = M1[rownum][columnnum] + M2[rownum][columnnum]
+    
+    return sumarr
+        
+def isMagic(squarearr):
+    # checks rows, columns and both diagonals to see if M is magic
+    # this is a boolean function
+      squareismagic = True
+  
+      sum = 0
+      tempsum = 0
+      
+      
+      # checking rows
+      for rownum in range(len(squarearr)):
+        
+        tempsum = 0
+        
+        for columnnum in range(len(squarearr[0])):
+          if rownum == 0:
+            sum += squarearr[rownum][columnnum]
+          tempsum += squarearr[rownum][columnnum]
+          
+        
+        if tempsum != sum:
+          squareismagic = False
+        
+        
+      #checking columns
+      sum = 0
+      
+      for columnnum in range(len(squarearr)):
+        
+        tempsum = 0
+        
+        for rownum in range(len(squarearr[0])):
+          if columnnum == 0:
+            sum += squarearr[rownum][columnnum]
+          tempsum += squarearr[rownum][columnnum]
+          
+        if tempsum != sum:
+          squareismagic = False
+          
+      # checking diagonals
+      
+      LtoRsum = 0
+      RtoLsum = 0
+      
+      # retrieves diagonal count from left to right
+      for diagcount in range(len(squarearr)):
+        
+        LtoRsum += squarearr[diagcount][diagcount]
+        
+      # retrieves diagonal count from right to left, then compares with first count
+      for diagcount in range(len(squarearr) - 1, -1, -1):
+        RtoLsum += squarearr[diagcount][diagcount]
+        
+      if LtoRsum != RtoLsum:
+        squareismagic = False
+        
+      
+      if squareismagic == True:
+        return ("square is magic, magic number is %d" % sum)
+      else:
+        return "square is not magic"
+
+m1 = [2, 7, 6]
+m2 = [9, 5, 1]
+m3 = [4, 3, 8]
+M = [m1, m2, m3] # magic square
+
+ma1 = m1
+ma2 = m2
+ma3 = m3
+Ma = (ma1, ma2, ma3)
+
+mb1 = [-2, -2, -2]
+mb2 = [-2, -2, -2]
+mb3 = [-2, -2, -2]
+Mb = (mb1, mb2, mb3)
+
+mc1 = [4, 9, 2]
+mc2 = [3, 5 ,7]
+mc3 = [8, 1, 6]
+Mc = (mc1, mc2, mc3)
+
+md1 = [6, 7, 2]
+md2 = [1, 5, 9]
+md3 = [8, 3, 4]
+Md = (mc1, mc2, mc3)
+
+me1 = [2, 9, 4]
+me2 = [7, 5, 3]
+me3 = [6, 1, 8]
+Me = (me1, me2, me3)
+
+print(isMagic(addM(M, Ma)))
+print(isMagic(addM(M, Mb)))
+print(isMagic(addM(M, Mc)))
+print(isMagic(addM(M, Md)))
+print(isMagic(addM(M, Me)))
+
+#unfinished
