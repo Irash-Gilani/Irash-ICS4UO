@@ -4,7 +4,7 @@ def addM(M1, M2):
     sumarr1 = [0] * len(M1[0])
     sumarr2 = [0] * len(M1[0])
     sumarr3 = [0] * len(M1[0])
-    sumarr = (sumarr1, sumarr2, sumarr3)
+    sumarr = [sumarr1, sumarr2, sumarr3]
     
     for rownum in range(len(M1)):
       for columnnum in range(len(M1[0])):
@@ -30,6 +30,7 @@ def isMagic(squarearr):
           if rownum == 0:
             sum += squarearr[rownum][columnnum]
           tempsum += squarearr[rownum][columnnum]
+        
           
         
         if tempsum != sum:
@@ -82,32 +83,30 @@ M = [m1, m2, m3] # magic square
 ma1 = m1
 ma2 = m2
 ma3 = m3
-Ma = (ma1, ma2, ma3)
+Ma = [ma1, ma2, ma3]
 
 mb1 = [-2, -2, -2]
 mb2 = [-2, -2, -2]
 mb3 = [-2, -2, -2]
-Mb = (mb1, mb2, mb3)
+Mb = [mb1, mb2, mb3]
 
 mc1 = [4, 9, 2]
 mc2 = [3, 5 ,7]
 mc3 = [8, 1, 6]
-Mc = (mc1, mc2, mc3)
+Mc = [mc1, mc2, mc3]
 
 md1 = [6, 7, 2]
 md2 = [1, 5, 9]
 md3 = [8, 3, 4]
-Md = (mc1, mc2, mc3)
+Md = [md1, md2, md3]
 
 me1 = [2, 9, 4]
 me2 = [7, 5, 3]
 me3 = [6, 1, 8]
-Me = (me1, me2, me3)
+Me = [me1, me2, me3]
 
 print(isMagic(addM(M, Ma)))
 print(isMagic(addM(M, Mb)))
 print(isMagic(addM(M, Mc)))
 print(isMagic(addM(M, Md)))
 print(isMagic(addM(M, Me)))
-
-#unfinished
