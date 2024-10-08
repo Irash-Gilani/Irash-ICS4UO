@@ -69,8 +69,10 @@ def isMagic(squarearr):
       if LtoRsum != RtoLsum:
         squareismagic = False
         
-      
-      return squareismagic
+      if squareismagic == True:
+        return ("square is magic, magic number is %d" % sum)
+      else:
+        return "square is not magic"
 
 def make5x5(M, shift):
     # M = a 1D matrix of length n
@@ -79,20 +81,27 @@ def make5x5(M, shift):
     shiftedarr = []
     for rownum in range(len(M)):
       shiftedarr.append([0] * len(M))
+      
+    shiftby = 0
     
     for rownum in range(len(M)):
       for val in range(len(M)):
-        shiftedval = (val + shift) % (len(M))
+        shiftedval = (val + shiftby) % (len(M))
         shiftedarr[rownum][val] = M[shiftedval]
-      shift += 1
+      shiftby += shift
     return shiftedarr
       
     
 a1 = [5, 1, 4, 2, 3]    # the first row of matrix A
 b1 = [15, 20, 0, 10, 5] # the first row of matrix B
 
-A = make5x5(a1, 2) # how to call "make5x5"
-print(A)
-B = make5x5(b1, 3)
+A = make5x5(a1, 3) # how to call "make5x5"
+print("A =", A)
+B = make5x5(b1, 2)
+print("B =", B)
+print()
 
-# unfinished
+print("Sum =", addM(A, B))
+print()
+
+print(isMagic(addM(A, B)))
