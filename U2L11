@@ -84,6 +84,7 @@ def make5x5(M, shift):
       for val in range(len(M)):
         shiftedval = (val + shift) % (len(M))
         shiftedarr[rownum][val] = M[shiftedval]
+      shift += 1
     return shiftedarr
       
     
@@ -91,6 +92,7 @@ a1 = [5, 1, 4, 2, 3]    # the first row of matrix A
 b1 = [15, 20, 0, 10, 5] # the first row of matrix B
 
 A = make5x5(a1, 2) # how to call "make5x5"
+print(A)
 B = make5x5(b1, 3)
 
 # unfinished
