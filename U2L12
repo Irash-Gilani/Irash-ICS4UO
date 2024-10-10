@@ -3,17 +3,23 @@ P = [[2.20], [3.10], [2.60]]
 
 
 def matmult(mat1, mat2):
-  multarr =[]
+  multarr = []
   for rownum in range(len(mat1)):
     multarr.append([0] * len(mat2[0]))
-  
-  for rowcount in range(len(mat2[0]) - 1):
-    for count in range(len(mat1) - 1):
-      multarr[rowcount][columncount] = (mat1[rowcount][0]*mat2[0][columncount]) + (mat1[rowcount][1][columncount])
-      
-  return multarr
-      
+  print(multarr)
     
+
+
+
+  for rowcount in range(len(mat1) - 1):
+    for columncount in range(len(mat2) - 1):
+      for count in range(len(mat1) - 1):
+        mat1val = mat1[rowcount][count]
+        mat2val = mat2[count][columncount]
+        multarr[rowcount][columncount] += mat1val*mat2val
+      
+  
+  return multarr
   
 print(matmult(Q, P))
 
