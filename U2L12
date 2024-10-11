@@ -4,13 +4,13 @@ P = [[2.20], [3.10], [2.60]]
 
 def matmult(mat1, mat2):
   multarr = []
+  # generate empty matrix
   for rownum in range(len(mat1)):
     multarr.append([0] * len(mat2[0]))
-  print(multarr)
     
 
 
-
+# goes through values in both matrixes and multiplies them
   for rowcount in range(len(mat1) - 1):
     for columncount in range(len(mat2) - 1):
       for count in range(len(mat1) - 1):
