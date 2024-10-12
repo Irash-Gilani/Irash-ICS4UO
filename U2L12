@@ -10,9 +10,9 @@ def matmult(mat1, mat2):
     
 
 
-# goes through values in both matrixes and multiplies them
+# goes through values in both matrixes and multiplies
   for rowcount in range(len(mat1) - 1):
-    for columncount in range(len(mat2) - 1):
+    for columncount in range(len(mat2[0])):
       for count in range(len(mat1) - 1):
         mat1val = mat1[rowcount][count]
         mat2val = mat2[count][columncount]
