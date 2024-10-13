@@ -1,26 +1,64 @@
-Q = [[0.5, 1.4, 1], [1, 2, 0.5]]
-P = [[2.20], [3.10], [2.60]]
-
+import math
 
 def matmult(mat1, mat2):
   multarr = []
-  # generate empty matrix
-  for rownum in range(len(mat1)):
-    multarr.append([0] * len(mat2[0]))
-    
-
 
 # goes through values in both matrixes and multiplies
-  for rowcount in range(len(mat1) - 1):
+  for rowcount in range(len(mat1)):
+    multrow = []
     for columncount in range(len(mat2[0])):
-      for count in range(len(mat1) - 1):
+      sum = 0
+
+      for count in range(len(mat1)):
         mat1val = mat1[rowcount][count]
         mat2val = mat2[count][columncount]
-        multarr[rowcount][columncount] += mat1val*mat2val
+        sum += mat1val*mat2val
+      multrow.append(sum)
+    multarr.append(multrow)
+    
+      
+  
+  return multarr
+
+Q = [[0.5, 1.4, 1], [1, 2, 0.5]]
+P = [[2.20], [3.10], [2.60]]
+
+qsum = []
+
+for rows in Q:
+  total = 0
+  for i in range(len(rows)):
+    total += rows[i]*P[i][0]
+  qsum.append(total)
+
+print("Ken spent $%.2f" % math.floor(qsum[0]))
+print("Karen spent $%.2f" % qsum[1])
+
+def matmult(mat1, mat2):
+  multarr = []
+
+# goes through values in both matrixes and multiplies
+  for rowcount in range(len(mat1)):
+    multrow = []
+    for columncount in range(len(mat2[0])):
+      sum = 0
+
+      for count in range(len(mat1)):
+        mat1val = mat1[rowcount][count]
+        mat2val = mat2[count][columncount]
+        sum += mat1val*mat2val
+      multrow.append(sum)
+    multarr.append(multrow)
+    
       
   
   return multarr
   
-print(matmult(Q, P))
+arr1 = [[2, 0], [1, 5]]
+arr2 = [[1, 0], [0, 1]]
+
+print()
+print(matmult(arr1, arr2))
 
 # unfinished
+
