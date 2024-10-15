@@ -6,22 +6,22 @@ def mmult(P, Q):
 
 # goes through values in both matrixes and multiplies
   for rowcount in range(len(P)):
-    multrow = []
+   
     for columncount in range(len(Q[0])):
       sum = 0
-
-      for count in range(len(P)):
-        mat1val = P[rowcount][count]
-        mat2val = Q[count][columncount]
-        sum += mat1val*mat2val
-      multrow.append(sum)
-    multarr.append(multrow)
+      mat1val = P[rowcount]
+      mat2val = Q[columncount][rowcount]
+      #print(rowcount, columncount)
+      print(mat1val, mat2val)
+      sum += mat1val*mat2val
+      print(sum)
+    multarr.append(sum)
     
       
   
   return multarr
 
-A = [.3, .7] # prob. Marla is late today
+A = [.6, .4] # prob. Marla is late today
 B = [[.7, .3],
      [.9, .1]] # conditional prob. model for Marla's punctuality tomorrow
 
@@ -32,6 +32,7 @@ print("On day 1, the probability that Marla will be late the next day is: ", C[1
 days = 15
 for i in range(2, days):
     C = mmult(C, B)
+    print(C)
     print("On day %d, the prob. Marla is early the next day is: %f" % (i, C[0]) )
     print("On day %d, the prob. Marla is late the next day is: %f" % (i, C[1]) )
 
