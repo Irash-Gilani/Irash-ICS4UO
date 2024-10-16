@@ -3,19 +3,23 @@ def mmult(P, Q):
     #               Q is the stochastic future probability
     # Returns: An array of probability for the next day
   multarr = []
-
+  sum = 0
 # goes through values in both matrixes and multiplies
   for rowcount in range(len(P)):
    
-    for columncount in range(len(Q[0])):
-      sum = 0
-      mat1val = P[rowcount]
-      mat2val = Q[columncount][rowcount]
-      #print(rowcount, columncount)
-      print(mat1val, mat2val)
-      sum += mat1val*mat2val
-      print(sum)
-    multarr.append(sum)
+   
+   for columncount in range(len(Q[0])):
+   
+    mat1val = P[rowcount]
+    mat2val = Q[columncount][rowcount]
+    #print(rowcount, columncount)
+    print("vals",mat1val, mat2val)
+    print("product = ",mat1val*mat2val)
+    sum += mat1val*mat2val
+    print("sum =",sum)
+   multarr.append(sum)
+   sum = 0 
+  print(multarr)
     
       
   
