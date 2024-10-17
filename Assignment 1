@@ -2,14 +2,25 @@
 # 846852
 
 def matshift(matrix):
-  shiftmatcols = [0] * len(matrix)
+  shiftmatcols = [] * len(matrix)
   shiftmat = [shiftmatcols] * len(matrix)
+  shiftby = 0
   
-  for rownum in range(1, len(matrix)):
+  print("empty mat", shiftmat)
+  print()
+  
+  
+  for rownum in range(len(matrix)):
     for val in range(len(matrix)):
-      shift = (val + 3) % (len(matrix))
-      shiftmat[rownum][val] = matrix[rownum][shift]
+      shiftedval = 0
+      shift = (val + shiftby) % (len(matrix))
+      #print(rownum, val, "", rownum, shift)
+      shiftedval = matrix[shift]
+      print(shiftedval)
+      shiftmat[rownum].append(shiftedval)
       
+    shiftby += 3
+    
   return shiftmat
 
 primenumbers = [5, 7, 11, 13, 17, 19]
@@ -24,16 +35,16 @@ while not inputprime:
   else:
     print("Input is outside of range")
 
-# creates a square matrix with dimensions NxN
-squarearr1cols = [0] * N
-squarearr1 = [squarearr1cols] * N
+# creates a square matrix with a length of N
+squarearr1 = [0] * N
 
-# goes through every row and makes every value go from 1 to N
-for i in range(len(squarearr1[0])):
-  squarearr1[0][i] = i + 1
+# goes through every value in square1arr and changes it from 1 to N
+for i in range(len(squarearr1)):
+  squarearr1[i] = i + 1
 
+print("mat of N:", squarearr1)
+print()
 
-
-print(matshift(squarearr1))
+print("shiftmat", matshift(squarearr1))
 
 #unfinished
