@@ -134,7 +134,7 @@ shiftmat1 = matshift(squarearr1, 3)
 # creates a 2D matrix out of the second array with each row shifted by 3
 shiftmat2 = matshift(squarearr2, 2)
 
-
+# adds the two 2D matrices together, and outputs the sum
 matsum = addM(shiftmat1, shiftmat2)
 print("The magic square is:")
 for row in matsum:
