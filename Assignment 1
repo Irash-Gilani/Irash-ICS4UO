@@ -9,7 +9,7 @@
 # squarearr1 - the first array, made up of values ranging from 1 to N
 # squarearr2 - the second array, made up of values ranging from 0*N to (N-1)*N
 # shiftmat1 - a matrix of dimensions NxN made up of squarearr1 with its values shifted by three left every row
-# shiftmat2 - a matrix of dimensions NxN made up of squarearr2 with its values shifted by two left
+# shiftmat2 - a matrix of dimensions NxN made up of squarearr2 with its values shifted by two left every row
 # matsum - a 2D matrix made up of the sums of the values in shiftmat1 and shiftmat2
 
 
@@ -115,14 +115,14 @@ while not inputprime:
   else:
     print("Input is outside of range")
 
-# creates a square matrix with a length of N
+# creates an array with a length of N
 squarearr1 = [0] * N
 
 # goes through every value in squarearr1 and replaces them with values ranging from 1 to N
 for i in range(len(squarearr1)):
   squarearr1[i] = i + 1
   
-#creates a second square matrix with a length of N
+#creates a second array with a length of N
 squarearr2 = [0] * N
 
 # goes through every value in squarearr2 and replaces them with values ranging from (0)(N) to (N-1)(N)
