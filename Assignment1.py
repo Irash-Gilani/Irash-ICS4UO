@@ -11,7 +11,8 @@
 # shiftmat1 - a matrix of dimensions NxN made up of squarearr1 with its values shifted by three left every row
 # shiftmat2 - a matrix of dimensions NxN made up of squarearr2 with its values shifted by two left
 # matsum - a 2D matrix made up of the sums of the values in shiftmat1 and shiftmat2
-
+# rownum - the amount of rows in a matrix
+# colnum - the amount of columns in a matrix
 
 # a function that takes a 1D matrix of length N and makes a 2D array of
 # dimensions N by N with every row shifted by a defined value
@@ -137,8 +138,10 @@ shiftmat2 = matshift(squarearr2, 2)
 
 matsum = addM(shiftmat1, shiftmat2)
 print("The magic square is:")
-for row in matsum:
-  print(row)
+for rownum in range(len(matsum)):
+  for colnum in range(len(matsum[0])):
+    print("%-3d" % matsum[rownum][colnum], end=" ")
+  print()
   
 print()
 
