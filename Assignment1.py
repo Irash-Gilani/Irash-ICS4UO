@@ -16,6 +16,9 @@
 
 # a function that takes a 1D matrix of length N and makes a 2D array of
 # dimensions N by N with every row shifted by a defined value
+
+import random 
+
 def matshift(matrix, shiftval):
   shiftmat = []
   shiftby = 0
@@ -119,9 +122,14 @@ while not inputprime:
 # creates a square matrix with a length of N
 squarearr1 = [0] * N
 
-# goes through every value in squarearr1 and replaces them with values ranging from 1 to N
+# goes through every value in squarearr1 and replaces them with random values ranging from 1 to N
 for i in range(len(squarearr1)):
-  squarearr1[i] = i + 1
+  numassigned = False
+  while not numassigned:
+    appnum = random.randrange(1, N + 1)
+    if appnum not in squarearr1:
+      squarearr1[i] = appnum
+      numassigned = True
   
 #creates a second square matrix with a length of N
 squarearr2 = [0] * N
