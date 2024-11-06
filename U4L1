@@ -4,13 +4,13 @@ n = int(input("Enter an upper limit value for the first term: "))
 
 def pythagtrip(a):
 
-  if (a % 2) == 0:
+  if (a**2 / 4) % 2 == 0:
 
     a = (a**2) / 4
     b = a - 1
     c = a + 1
     
-  elif (a % 2) != 0:
+  else:
 
     a = math.floor(a / 2)
     b = a*(a + 1)
@@ -31,4 +31,4 @@ for count in range(3, n + 1):
     print(False)
 
 # unfinished
-# something wrong with algorithm for calculating a, b and c
+# change a to a2 or smthg
