@@ -3,6 +3,7 @@ import math
 n = int(input("Enter an upper limit value for the first term: "))
 
 def pythagtrip(a):
+
   if (a % 2) == 0:
 
     a = (a**2) / 4
@@ -15,6 +16,8 @@ def pythagtrip(a):
     b = a*(a + 1)
     c = (a*(a + 1)) + 1
     
+  #print((a**2 + b**2), "=", c**2)  
+  print(a, b, c)
   if (a**2 + b**2) == c**2:
     return (math.floor(a), math.floor(b), math.floor(c))
   else:
@@ -28,3 +31,4 @@ for count in range(3, n + 1):
     print(False)
 
 # unfinished
+# something wrong with algorithm for calculating a, b and c
