@@ -1,34 +1,33 @@
 import math
 
-n = int(input("Enter an upper limit value for the first term: "))
+n = int(input("Enter an upper limit value for the first term:"))
 
 def pythagtrip(a):
 
   if (a**2 / 4) % 2 == 0:
 
-    a = (a**2) / 4
-    b = a - 1
-    c = a + 1
+    acalc = (a**2) / 4
+    b = acalc - 1
+    c = acalc + 1
     
   else:
 
-    a = math.floor(a / 2)
-    b = a*(a + 1)
-    c = (a*(a + 1)) + 1
+    acalc = math.floor(a / 2)
+    b = acalc*(a + 1)
+    c = (acalc*(a + 1)) + 1
     
   #print((a**2 + b**2), "=", c**2)  
-  print(a, b, c)
+  
+  #print("a, b, c =", a, b, c)
   if (a**2 + b**2) == c**2:
     return (math.floor(a), math.floor(b), math.floor(c))
   else:
     return False
 
 for count in range(3, n + 1):
+  #print("count =", count)
   if pythagtrip(count):
     trip = pythagtrip(count)
-    print(trip, "-->", trip[0]**2, trip[1]**2, trip[2]**2)
-  else:
-    print(False)
-
-# unfinished
-# change a to a2 or smthg
+    print(trip, "--> (%d %d %d)" % (trip[0]**2, trip[1]**2, trip[2]**2))
+  #else:
+    #print(False)
