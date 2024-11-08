@@ -34,7 +34,7 @@ try:
         print(fh.readline())
         
     
-    print(columns, rows, colours)
+    print("%d columns, %d rows, %d colours" % (columns, rows, colours))
     print(colourdat)
     
     
