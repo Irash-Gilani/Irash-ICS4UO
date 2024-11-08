@@ -1,0 +1,46 @@
+def stripline(ln):
+    finalln = ""
+    badChars = ['"', ',']
+    ln = ln.strip()
+    
+    for char in ln:
+        if char not in badChars:
+            finalln += char
+            
+    return finalln
+
+try:
+    #fh = open("smiley_emoji_mod.xpm", "r")
+    fh = open("cool_smiley_mod.xpm", "r")
+    
+    imginfo = fh.readline()
+    imginfo = stripline(imginfo)
+    
+    [columns, rows, colours] = imginfo.split()
+    columns = int(columns)
+    rows = int(rows)
+    colours = int(colours)
+    
+    colourdat = {}
+    
+    for i in range(colours):
+        cLine = fh.readline()
+        cLine = stripline(cLine)
+        [symbol, c, colour] = cLine.split()
+        
+        colourdat[symbol] = colour
+        
+    for imgrows in range(rows):
+        print(fh.readline())
+        
+    
+    print(columns, rows, colours)
+    print(colourdat)
+    
+    
+    fh.close()
+except OSError:
+    print("Error: File not found")
+except EOFError:
+    print("Error: End of file exceeded")
+    fh.close()
