@@ -1,0 +1,19 @@
+import turtle
+
+t = turtle.Turtle()
+turtle.bgcolor("gray80")
+turtle.tracer(0, 0)
+t.hideturtle()
+step = 4
+
+def plotpoint(obj, step, colourdat[symbol]):
+    obj.pendown()
+    obj.dot(step, colour)
+    obj.penup()
+    
+t.forward(-(columns / 2))
+t.left(90)
+t.forward(rows / 2)
+t.right(90)
+
+# figure out how to read one character at a time in one line
