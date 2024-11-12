@@ -1,12 +1,57 @@
 import turtle
 
+def stripline(ln):
+    finalln = ""
+    badChars = ['"', ',']
+    ln = ln.strip()
+    
+    for char in ln:
+        if char not in badChars:
+            finalln += char
+            
+    return finalln
+
+try:
+    #fh = open("smiley_emoji_mod.xpm", "r")
+    fh = open("cool_smiley_mod.xpm", "r")
+    
+    imginfo = fh.readline()
+    imginfo = stripline(imginfo)
+    
+    [columns, rows, colours] = imginfo.split()
+    columns = int(columns)
+    rows = int(rows)
+    colours = int(colours)
+    
+    colourdat = {}
+    
+    for i in range(colours):
+        cLine = fh.readline()
+        cLine = stripline(cLine)
+        [symbol, c, colour] = cLine.split()
+        
+        colourdat[symbol] = colour
+        
+    imagerowarr = []
+        
+    for rownum in range(rows):
+        imagerowarr.append(stripline(fh.readline()))
+            
+          
+    fh.close()
+except OSError:
+    print("Error: File not found")
+except EOFError:
+    print("Error: End of file exceeded")
+    fh.close()
+
 t = turtle.Turtle()
 turtle.bgcolor("gray80")
 turtle.tracer(0, 0)
 t.hideturtle()
 step = 4
 
-def plotpoint(obj, step, colourdat[symbol]):
+def plotpoint(obj, step, colour):
     obj.pendown()
     obj.dot(step, colour)
     obj.penup()
@@ -16,4 +61,14 @@ t.left(90)
 t.forward(rows / 2)
 t.right(90)
 
-# figure out how to read one character at a time in one line
+for rownum in range(rows):
+    if rownum > 0:
+        t.forward(-(columns))
+        t.right(90)
+        t.forward(4)
+        t.left(90)
+    for columnum in range(columns):
+        plotpoint(t, 4, imagerowarr[rownum][columnum])
+        t.forward(4)
+
+turtle.update()
