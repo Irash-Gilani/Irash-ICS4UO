@@ -1,3 +1,5 @@
+import turtle
+
 def stripline(ln):
     finalln = ""
     badChars = ['"', ',']
@@ -8,6 +10,11 @@ def stripline(ln):
             finalln += char
             
     return finalln
+
+def plotpoint(obj, step, colour):
+    obj.pendown()
+    obj.dot(step, colour)
+    obj.penup()
 
 try:
     #fh = open("smiley_emoji_mod.xpm", "r")
@@ -30,13 +37,62 @@ try:
         
         colourdat[symbol] = colour
         
-    for imgrows in range(rows):
-        print(fh.readline())
+    imagerowarr = []
         
-    
-    print("%d columns, %d rows, %d colours" % (columns, rows, colours))
-    print(colourdat)
-    
+    for rownum in range(rows):
+        imagerowarr.append(stripline(fh.readline()))
+        
+            
+          
+    t = turtle.Turtle()
+    turtle.bgcolor("gray80")
+    turtle.tracer(0, 0)
+    t.hideturtle()
+    step = 4
+
+    for rownum in range(rows):
+        if rownum > 0:
+            t.forward(-(columns) * step)
+            t.right(90)
+            t.forward(step)
+            t.left(90)
+            
+            
+        else:
+            #print("first row")
+            #print(t.pos())
+            t.forward(-(columns // 2))
+            t.left(90)
+            t.forward(rows // 2)
+            t.right(90)
+            #print(t.pos())
+            if rownum==0:
+                plotpoint(t, 50, "black")
+            
+        for columnum in range(columns):
+            #print(rownum, columnum)
+            print(t.pos())
+            
+            #print colour in console
+            #if imagerowarr[rownum][columnum] == " ":
+                #print(colourdat["~"])
+            #else:
+                #print(colourdat[imagerowarr[rownum][columnum]])
+                
+            #plot points
+            if imagerowarr[rownum][columnum] == " ":
+                plotpoint(t, step, colourdat["~"])
+            else:
+                plotpoint(t, step, colourdat[imagerowarr[rownum][columnum]])
+                
+            if rownum == rows - 1 and columnum == columns - 1:
+                plotpoint(t, 50, "black")    
+            
+            t.forward(step)
+            
+            
+
+    turtle.update()     
     
     fh.close()
 except OSError:
@@ -44,3 +100,6 @@ except OSError:
 except EOFError:
     print("Error: End of file exceeded")
     fh.close()
+    
+# fix issue: output only in quadrant 4
+
