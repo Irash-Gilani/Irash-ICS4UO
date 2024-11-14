@@ -11,9 +11,15 @@ def stripline(ln):
             
     return finalln
 
+def plotpoint(obj, step, colour):
+    obj.pendown()
+    obj.dot(step, colour)
+    obj.penup()
+
 try:
     #fh = open("smiley_emoji_mod.xpm", "r")
-    fh = open("cool_smiley_mod.xpm", "r")
+    #fh = open("cool_smiley_mod.xpm", "r")
+    fh = open("rocky_bullwinkle_mod.xpm", "r")
     
     imginfo = fh.readline()
     imginfo = stripline(imginfo)
@@ -37,7 +43,6 @@ try:
     for rownum in range(rows):
         imagerowarr.append(stripline(fh.readline()))
             
-          
     fh.close()
 except OSError:
     print("Error: File not found")
@@ -45,30 +50,30 @@ except EOFError:
     print("Error: End of file exceeded")
     fh.close()
 
+
 t = turtle.Turtle()
 turtle.bgcolor("gray80")
 turtle.tracer(0, 0)
 t.hideturtle()
 step = 4
 
-def plotpoint(obj, step, colour):
-    obj.pendown()
-    obj.dot(step, colour)
-    obj.penup()
-    
-t.forward(-(columns / 2))
+t.penup()
+t.forward(-(columns / 2) * step)
 t.left(90)
-t.forward(rows / 2)
+t.forward(rows / 2 * step)
 t.right(90)
 
 for rownum in range(rows):
     if rownum > 0:
-        t.forward(-(columns))
+        t.forward(-(columns) * step)
         t.right(90)
-        t.forward(4)
+        t.forward(step)
         t.left(90)
     for columnum in range(columns):
-        plotpoint(t, 4, imagerowarr[rownum][columnum])
-        t.forward(4)
+        if imagerowarr[rownum][columnum] == ' ':
+            plotpoint(t, step, "black")
+        else:
+            plotpoint(t, step, colourdat[imagerowarr[rownum][columnum]])
+        t.forward(step)
 
 turtle.update()
