@@ -1,4 +1,4 @@
-from Fraction import Fraction
+from U4L5Fraction import Fraction
 
 class Fraction2(Fraction):
   def __init__(self, num, den):
