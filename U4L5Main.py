@@ -1,4 +1,4 @@
-from Fraction2 import Fraction2
+from U4L5Fraction2 import Fraction2
 
 # driver code
 f = Fraction2(3, 4)
