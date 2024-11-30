@@ -1,10 +1,14 @@
 class char:
     def __init__(self, c : str):
+        self.__asciitrue = True
         self.ch = c[0]
+        if ord(self.ch) > 127:
+          self.__asciitrue = False
         self.next = None
         
-    def isacii(self):
-      
+        
+    def isascii(self):
+      return self.__asciitrue
     
     def __str__(self):
         return self.ch
@@ -15,9 +19,9 @@ class myStr:
     def __init__(self, s: str):
         self.__s = s
         self.__head = char(self.__s[0])
-        chCount = 1
+        chCount = 0
         for c in self.__s:
-            if chCount == 1:
+            if chCount == 0:
                 self.__head.next = char(c)
                 self.__C = self.__head.next
             else:
@@ -42,5 +46,7 @@ class myStr:
 # Driver code
 S = myStr("Hello")
 print(S) # should print the string
+print("length =", myStr.len(S))
+print(char.isascii(S))
 
 #unfinished
