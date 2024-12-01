@@ -1,52 +1,73 @@
 class char:
-    def __init__(self, c : str):
-        self.__asciitrue = True
+    def __init__(self, c: str):
         self.ch = c[0]
         if ord(self.ch) > 127:
-          self.__asciitrue = False
+            self.__asciitrue = False
         self.next = None
-        
-        
-    def isascii(self):
-      return self.__asciitrue
-    
+
     def __str__(self):
+        print(isascii())
         return self.ch
-        
-    
+
 
 class myStr:
     def __init__(self, s: str):
         self.__s = s
         self.__head = char(self.__s[0])
         chCount = 0
+        self.__asciitrue = True
+        self.__alphatrue = True
         for c in self.__s:
             if chCount == 0:
                 self.__head.next = char(c)
                 self.__C = self.__head.next
+                if ord(c) > 127:
+                    self.__asciitrue = False
+                print(ord(c))
+                if (ord(c) >= 90 or ord(c) <= 65) and (ord(c) >= 122 or ord(c) <= 97):
+                    self.__alphatrue = False
             else:
                 self.__C.next = char(c)
+                if ord(c) > 127:
+                    self.__asciitrue = False
+                print(ord(c))
+                if (ord(c) >= 90 or ord(c) <= 65) and (ord(c) >= 122 or ord(c) <= 97):
+                    self.__alphatrue = False
                 self.__C = self.__C.next
             chCount += 1
         self.__len = chCount
-        
+
     def len(self):
-      return self.__len
-        
+        return self.__len
+
+    def isascii(self):
+        return self.__asciitrue
+
+    def isalpha(self):
+        return self.__alphatrue
+
+    def upper(self):
+        return self.__s.upper()
+
+    def lower(self):
+        return self.__s.lower()
+
     def __str__(self):
         self.__C = self.__head.next
         myStr = ""
         # add your code here!
         while self.__C != None:
-          myStr += self.__C.ch
-          self.__C = self.__C.next
-      
+            myStr += self.__C.ch
+            self.__C = self.__C.next
+
         return myStr
+
 
 # Driver code
 S = myStr("Hello")
-print(S) # should print the string
+print(S)  # should print the string
 print("length =", myStr.len(S))
-print(char.isascii(S))
-
-#unfinished
+print(myStr.isascii(S))
+print(myStr.isalpha(S))
+print(myStr.upper(S))
+print(myStr.lower(S))
