@@ -32,12 +32,9 @@ class Polygon(Point):
 try:
     fh = open("a2.txt", "r")
     
-    currNode = Node(fh.readline())
-    head = currNode
+    # read the line of coordinates, split them up and
+    # process them through a linked list
     
-    while fh.readline() != "":
-        
-    # a2 is only one line, so the above code won't work 
     fh.close()
 
 except OSError as err:
@@ -48,5 +45,5 @@ except EOFError as err2:
   
   
   
-#unfinsihed
-# TODO Make a linked list with the points
+#unfinished
+
