@@ -1,6 +1,9 @@
 import math
 
-
+class Node:
+    def __init__(self, data=None):
+        self.data = data
+        self.next = None
 
 class Point:
     def __init__(self, x, y):
@@ -21,12 +24,29 @@ class Point:
     
 class Polygon(Point):
     
+    # creates a vertex
     def add_point(x, y):
-        vertex = Point(x, y)
-        return vertex.getPoint()
+        return Point(x, y).getPoint()
+    
+
+try:
+    fh = open("a2.txt", "r")
+    
+    currNode = Node(fh.readline())
+    head = currNode
+    
+    while fh.readline() != "":
         
-print(Polygon.add_point(5, 3))
-        
-        
+    # a2 is only one line, so the above code won't work 
+    fh.close()
+
+except OSError as err:
+    print("File not found", err)
+except EOFError as err2:
+    print("End of file exceeded", err2)
+    fh.close()
+  
+  
+  
 #unfinsihed
 # TODO Make a linked list with the points
