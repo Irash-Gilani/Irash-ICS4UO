@@ -23,14 +23,12 @@ class myStr:
                 self.__C = self.__head.next
                 if ord(c) > 127:
                     self.__asciitrue = False
-                print(ord(c))
                 if (ord(c) >= 90 or ord(c) <= 65) and (ord(c) >= 122 or ord(c) <= 97):
                     self.__alphatrue = False
             else:
                 self.__C.next = char(c)
                 if ord(c) > 127:
                     self.__asciitrue = False
-                print(ord(c))
                 if (ord(c) >= 90 or ord(c) <= 65) and (ord(c) >= 122 or ord(c) <= 97):
                     self.__alphatrue = False
                 self.__C = self.__C.next
