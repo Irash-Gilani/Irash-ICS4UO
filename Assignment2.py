@@ -78,7 +78,7 @@ class Polygon:
 # driver starts here
 
 # driver for the polygon class
-from poly import *
+#from poly import *
 
 def getNumeric(S : str):
     # input: S is a point in the format "(x,y)" (type str)
@@ -95,12 +95,16 @@ fh = open("a2.txt", "r") # this is the name of the data file to open
 
 polydata = fh.readline().strip()
 
+polydata = polydata.split(", ")
+
 # make an array of points (str)
+# do this as a linked list
 
-polarr = []
+ptarr = []
 
-for x in polydata:
-    p = x.strip("()")
+for coord in polydata:
+    
+    p = coord.strip("()")
     
     [x, y] = p.split(",")
     
@@ -113,14 +117,20 @@ for x in polydata:
         y = int(y)
     except:
         y = float(y)
+        
+    print(x, y)
+    print(point(x, y))
     
-    pt = point(x, y)
+    # use getNumeric instead
+    pt = point(x, y).__str__()
     
-    polarr.append(pt)
+    ptarr.append(pt)
+    
+print(ptarr)
 
 # declare a polygon
 
- Poly = polygon(points)
+Poly = Polygon(ptarr)
 
 # loop through the points array and turn them into numbers for the polynomial object
     # generate an x, y pair (numerical not str) from getNumeric
@@ -129,3 +139,5 @@ for x in polydata:
 print(Poly) # this should print the entire linked list of points as string
 
 # driver ends here
+
+# separate poly.py and driver into separate files when done
