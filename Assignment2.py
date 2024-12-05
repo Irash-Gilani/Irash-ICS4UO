@@ -23,12 +23,6 @@ class point:
     
         return val
     
-    def getX(self):
-        return self.__x
-    
-    def getY(self):
-        return self.__y
-    
     def __str__(self):
         # point (x, y) expressed this way as string
         # as in: (4, 5)
@@ -51,24 +45,32 @@ class Polygon:
         self.__x = x
         self.__y = y
         
-        if self.vertices == 0:
-            V = point(self.__x, self.__y)
+        #problem with below line
+        V = point(self.__x, self.__y)
+        
+        if self.__vertices == 0:
             self.__head.next = V
+            
             self.__vertices += 1
         else:
             V.next = V
             self.__vertices += 1
+            
             V = V.next
+            
             self.__sides += 1
+            
+            
             
     def __str__(self):
         # Use a traversal to generate the entire set of points separated by "->" as string
         # You need to use point's __str__ function to help you.
         
         V = self.__head
+        #print(V)
+        #print(V.next)
         
-        while V.next != None:
-            V.next = V
+        while V != None:
             print(V, "-->", end="")
             V = V.next
     
@@ -84,29 +86,9 @@ def getNumeric(S : str):
     # input: S is a point in the format "(x,y)" (type str)
     # output: a tuple or list indicating a point (x, y) where x, y are int or float
     
-    S = point(S)
+    S = S.strip("()")
     
-    x = point.getX(S)
-    y = point.getY(S)
-
-    return (x, y)
-
-fh = open("a2.txt", "r") # this is the name of the data file to open
-
-polydata = fh.readline().strip()
-
-polydata = polydata.split(", ")
-
-# make an array of points (str)
-# do this as a linked list
-
-ptarr = []
-
-for coord in polydata:
-    
-    p = coord.strip("()")
-    
-    [x, y] = p.split(",")
+    (x, y) = S.split(", ")
     
     try:
         x = int(x)
@@ -117,24 +99,41 @@ for coord in polydata:
         y = int(y)
     except:
         y = float(y)
-        
-    print(x, y)
-    print(point(x, y))
+
+    return (x, y)
+
+fh = open("a2.txt", "r") # this is the name of the data file to open
+
+polydata = fh.readline().strip()
+
+polydata = polydata.split(", ")
+
+# make an array of points (str)
+
+ptarr = []
+
+for coord in polydata:
     
-    # use getNumeric instead
+    p = coord.strip("()")
+    
+    [x, y] = p.split(",")
+
     pt = point(x, y).__str__()
     
     ptarr.append(pt)
-    
-print(ptarr)
+
 
 # declare a polygon
 
-Poly = Polygon(ptarr)
+Poly = Polygon()
 
 # loop through the points array and turn them into numbers for the polynomial object
+for pt in ptarr:
     # generate an x, y pair (numerical not str) from getNumeric
+    pair = getNumeric(pt)
     # add to the polynomial (call add_point())
+    
+    Poly.add_point(pair[0], pair[1])
 
 print(Poly) # this should print the entire linked list of points as string
 
