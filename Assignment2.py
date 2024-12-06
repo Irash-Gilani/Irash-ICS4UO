@@ -41,38 +41,37 @@ class Polygon:
         # if it is the first point, create the object with variable V make head.next point to V
         # if it is any other point, V.next points to it, and V traverses to that point
         # count the vertices as you go
-        
-        self.__x = x
-        self.__y = y
-        
-        #problem with below line
-        V = point(self.__x, self.__y)
+    
+        V = point(x, y)
         
         if self.__vertices == 0:
-            self.__head.next = V
+            self.__V = V 
+            self.__head.next = self.__V
             
             self.__vertices += 1
         else:
-            V.next = V
+            self.__V.next = V
             self.__vertices += 1
             
-            V = V.next
-            
-            self.__sides += 1
-            
-            
+            if self.__vertices % 2 == 0:
+                self.__sides += 1
+            self.__V = self.__V.next
             
     def __str__(self):
         # Use a traversal to generate the entire set of points separated by "->" as string
         # You need to use point's __str__ function to help you.
         
-        V = self.__head
-        #print(V)
-        #print(V.next)
+        linkedliststr = ""
         
-        while V != None:
-            print(V, "-->", end="")
-            V = V.next
+        self.__V = self.__head.next
+        
+        while self.__V != None:
+            linkedliststr += (str(self.__V))
+            if self.__V.next != None:
+                linkedliststr += ("-->")
+            self.__V = self.__V.next
+            
+        return linkedliststr
     
 
 #poly.py ends here
@@ -132,7 +131,6 @@ for pt in ptarr:
     # generate an x, y pair (numerical not str) from getNumeric
     pair = getNumeric(pt)
     # add to the polynomial (call add_point())
-    
     Poly.add_point(pair[0], pair[1])
 
 print(Poly) # this should print the entire linked list of points as string
