@@ -59,6 +59,8 @@ class Polygon:
             self.__head.next = self.__V
 
             self.__vertices += 1
+            if self.__head.next != None:
+                self.__sides += 1
         else:
             self.__V.next = V
             self.__vertices += 1
@@ -108,7 +110,19 @@ class Polygon:
 # p - a coordinate in polydata that has had its brackets removed
 # pt - a point object created from the x and y values taken from p
 # poly - a polygon object
+# isregular - a boolean that indicates whether or not a polygon is regular
 # pair - a pair of x and y coordinate in tuple form taken from processing a point through getNumeric
+# ptnum - the index value of items in the ptarr array, serves as a counter in a for loop
+# pt2num - an index value that is one less that ptnum
+# pair1 - a pair of x and y coordinates in tuple form that correspond to ptnum in ptarr
+# pair2 - a pair of x and y coordinates in tuple form that correspond to pt2num in ptarr
+# pt1 - pair1 converted to point
+# pt2 - pair2 converted to point
+# dist - the distance between pt1 and pt2
+# dotp - the dot product of pair1 and pair2
+# magp - the product of the magnitudes of pair1 and pair2
+# angle - the angle between pair1 and pair2's points, calculated by getting the inverse of cosine of dotp / magp
+# prevdist - the value of dist that comes before the current value of dist, meant to be compared to 
 
 # a function that takes in a coordinate in string format and outputs a tuple containing an x and y coordinate
 def getNumeric(S: str):
@@ -131,6 +145,24 @@ def getNumeric(S: str):
         y = float(y)
 
     return (x, y)
+
+
+# a function for getting the dot product between two vectors in radians 
+def dotprod(vecA, vecB):
+  product = 0
+  for count in range(len(vecA)):
+    product += vecA[count] * vecB[count]
+  return product
+
+# a function for getting the magnitude of a vector
+def magnitude(matrix):
+  mag = 0
+  for val in matrix:
+    mag += math.pow(val, 2)
+  
+  mag = math.sqrt(mag)
+  
+  return mag
 
 
 fh = open("a2.txt", "r")  # this is the name of the data file to open
@@ -167,21 +199,53 @@ for pt in ptarr:
 
 print(Poly)  # this should print the entire linked list of points as string
 
-print(Poly.getSides())
+print("sides:", Poly.getSides())
 
+# a boolean for checking if a polygon is regular or not regular
+# will return false if all of the angles or side lengths are not equal 
+isregular = True
 
 # below is code for printing the distance between all points in the polygon
 for ptnum in range(1, len(ptarr)):
     pt2num = ptnum - 1
     
+    # pair1 is current point, pair2 is last point 
     pair1 = getNumeric(ptarr[ptnum])
     pair2 = getNumeric(ptarr[pt2num])
     
-    pt = point(pair1[0], pair1[1])
+    # below is pair1 and pair2 converted to point objects
+    pt1 = point(pair1[0], pair1[1])
     pt2 = point(pair2[0], pair2[1])
     
-    print(pt.distance(pt2))
+    dist = pt1.distance(pt2)
+    print("distance:", dist)
+    dotp = dotprod(pair1, pair2)
+    print("dot product:", dotp)
+    mag2p = magnitude(pair1)*magnitude(pair2)
+    print("magnitude of both points:", mag2p)
     
-
-
+    # to get an angle between tow points,
+    # run cosine inverse of the dotproduct of two vectors divided by the magnitude of two vectors
+    angle = math.acos(dotp / mag2p)
+    print("angle in rads:", angle)
+    
+    # initializes prevdist and prevangle before first check on first point to prevent error
+    if ptnum == 1:
+        prevdist = dist
+        prevangle = angle
+        
+    # check if distances or angles are unequal
+    if ptnum > 1:
+        if prevdist != dist or prevangle != angle:
+            isregular = False
+            
+            
+    # update prevdist and prevangle before moving on to new points 
+    prevdist = dist
+    prevangle = angle
+    
+print(isregular)
+    
 # driver ends here
+
+
