@@ -111,7 +111,7 @@ class Polygon:
 # pt - a point object created from the x and y values taken from p
 # poly - a polygon object
 # isregular - a boolean that indicates whether or not a polygon is regular
-# pair - a pair of x and y coordinate in tuple form taken from processing a point through getNumeric
+# pair - a pair of x and y coordinates in tuple form taken from processing a point through getNumeric
 # ptnum - the index value of items in the ptarr array, serves as a counter in a for loop
 # pt2num - an index value that is one less that ptnum
 # pair1 - a pair of x and y coordinates in tuple form that correspond to ptnum in ptarr
@@ -122,7 +122,21 @@ class Polygon:
 # dotp - the dot product of pair1 and pair2
 # magp - the product of the magnitudes of pair1 and pair2
 # angle - the angle between pair1 and pair2's points, calculated by getting the inverse of cosine of dotp / magp
-# prevdist - the value of dist that comes before the current value of dist, meant to be compared to 
+# prevdist - the value of dist that comes before the current value of dist, meant to be compared to the current
+# distance value to determine whether or not a polygon is regular
+# prevangle - the measure of angle that comes before the current angle value, meant to be compared to the
+# current angle value to determine whether or not a polygon is regular
+# perimeter - the perimeter of the polygon
+# sides - the amount of sides in the polygon 
+# area - the area of the polygon
+# prod1 - the sum of the products of the x coordinate multiplied by the next y coordinate, taken when calculating the
+# area of an irregular polygon
+# prod2 - the sum of the products of the y coordinate multiplied by the next x coordinate, taken when calculating the
+# area of an irregular polygon
+# vert1 - the current vertex, used when calculating prod1 and prod2 for the area of an irregular polygon
+# vert2 - the vertex after vert1, used when calculating prod1 and 
+
+
 
 # a function that takes in a coordinate in string format and outputs a tuple containing an x and y coordinate
 def getNumeric(S: str):
@@ -199,14 +213,20 @@ for pt in ptarr:
 
 print(Poly)  # this should print the entire linked list of points as string
 
-print("sides:", Poly.getSides())
+#print("sides:", Poly.getSides())
 
 # a boolean for checking if a polygon is regular or not regular
 # will return false if all of the angles or side lengths are not equal 
 isregular = True
 
-# below is code for printing the distance between all points in the polygon
+# an array to be made up of the distances between each successive pair of points, to be used in
+# permimeter calculations if the polygon is not regular
+distarr = []
+
+# below is a for loop that goes through all points in the polygon
+# starts at the second item
 for ptnum in range(1, len(ptarr)):
+    # initializes variable for the previous item
     pt2num = ptnum - 1
     
     # pair1 is current point, pair2 is last point 
@@ -218,16 +238,17 @@ for ptnum in range(1, len(ptarr)):
     pt2 = point(pair2[0], pair2[1])
     
     dist = pt1.distance(pt2)
-    print("distance:", dist)
+    distarr.append(dist)
+    #print("distance:", dist)
     dotp = dotprod(pair1, pair2)
-    print("dot product:", dotp)
+    #print("dot product:", dotp)
     mag2p = magnitude(pair1)*magnitude(pair2)
-    print("magnitude of both points:", mag2p)
+    #print("magnitude of both points:", mag2p)
     
-    # to get an angle between tow points,
+    # to get an angle between two points,
     # run cosine inverse of the dotproduct of two vectors divided by the magnitude of two vectors
     angle = math.acos(dotp / mag2p)
-    print("angle in rads:", angle)
+    #print("angle in rads:", angle)
     
     # initializes prevdist and prevangle before first check on first point to prevent error
     if ptnum == 1:
@@ -244,8 +265,72 @@ for ptnum in range(1, len(ptarr)):
     prevdist = dist
     prevangle = angle
     
-print(isregular)
+# below code checks for a regular polygon by comparing the last coordinate in ptarr with the first coordinate in ptarr
+# same processes taking place as the code above
+if ptnum == len(ptarr) - 1:
+    pair1 = getNumeric(ptarr[ptnum])
+    pair2 = getNumeric(ptarr[0])
+    
+    pt1 = point(pair1[0], pair1[1])
+    pt2 = point(pair2[0], pair2[1])
+
+    dist = pt1.distance(pt2)
+    distarr.append(dist)
+    dotp = dotprod(pair1, pair2)
+    mag2p = magnitude(pair1)*magnitude(pair2)
+    angle = math.acos(dotp / mag2p)
+    
+    if prevdist != dist or prevangle != angle:
+        isregular = False
+
+
+
+
+
+#print(isregular)
+    
+perimeter = 0
+
+sides = Poly.getSides()
+
+# if the polygon is regular, the perimeter is found by multiplying the distance of one
+# side by the amount of sides 
+if isregular == True:
+    perimeter = dist*sides
+# if the polygon is irregular, the perimeter is found by adding up all of the
+# distance values 
+else:
+    for distval in distarr:
+        perimeter += distval
+        
+#print(perimeter)
+    
+area = 0
+
+# if the polygon is regular, the area is found using the formula below 
+if isregular == True:
+    area = ((dist**2)(sides)) / (4)(math.tan(180/sides))
+else:
+    prod1 = 0
+    prod2 = 0
+    
+    for ptnum in range(len(ptarr)):
+        if ptnum != len(ptarr) - 1:
+            vert1 = getNumeric(ptarr[ptnum])
+            vert2 = getNumeric(ptarr[ptnum + 1])
+            
+            prod1 += vert1[0]*vert2[1]
+            prod2 += vert1[1]*vert2[0]
+        else:
+             vert1 = getNumeric(ptarr[ptnum])
+             vert2 = getNumeric(ptarr[0])
+             
+             prod1 += vert1[0]*vert2[1]
+             prod2 += vert1[1]*vert2[0]
+    area = (prod1 - prod2) / 2
+    
+#print(area)
+            
+        
     
 # driver ends here
-
-
