@@ -45,7 +45,11 @@ class Polygon:
         self.__sides = 0
         self.__vertices = 0
         self.__head = point()  # a null point with a null Next field
+        # a boolean for checking if a polygon is regular or not regular
+        # will return false if any of the angles or side lengths are unequal with the one that came
+        # before them 
         self.__isregular = True
+        self.__distsum = 0 # the sum of all side lengths
 
     def add_point(self, x: float, y: float):
         # initialize a point object V
@@ -69,10 +73,26 @@ class Polygon:
             self.__sides += 1
             self.__V = self.__V.next
 
-        
-            
+    # returns the amount of sides in the polygon    
     def getSides(self):
         return(self.__sides)
+    
+    # a function for getting the dot product between two vectors in radians 
+    def dotprod(self, vecA, vecB):
+      self.__product = 0
+      for count in range(len(vecA)):
+        self.__product += vecA[count] * vecB[count]
+      return self.__product
+    
+    # a function for getting the magnitude of a vector
+    def magnitude(self, matrix):
+      self.__mag = 0
+      for val in matrix:
+        self.__mag += math.pow(val, 2)
+      
+      self.__mag = math.sqrt(self.__mag)
+      
+      return self.__mag
 
     def __str__(self):
         # Use a traversal to generate the entire set of points separated by "->" as string
@@ -101,7 +121,7 @@ import turtle
 
 # Irash Gilani
 # 846852
-# Driver for polygon program (part 2)
+# Driver for polygon program
 
 # variable dictionary;
 # S - The string fed into GetNumeric to return an x and y coordinate
@@ -147,7 +167,7 @@ def getNumeric(S: str):
 
     S = S.strip("()") # removes the brackets in the string
 
-    (x, y) = S.split(", ") # gets the x any y coordinates by splitting them up between the comma
+    (x, y) = S.split(", ") # gets the x and y coordinates by splitting them up between the comma
 
     # code below attempts to convert the x and y values gathered from a coordinate string to an int or float
     try:
@@ -159,7 +179,8 @@ def getNumeric(S: str):
         y = int(y)
     except:
         y = float(y)
-
+    
+    # returns x and y in a tuple
     return (x, y)
 
 
@@ -376,7 +397,8 @@ for ptnum in range(len(ptarr)):
         t.goto(pt2[0]*mult, pt2[1]*mult)
         # stops drawing
         t.penup()
-        
-# TODO: Move calculations for area and perimeter to the object 
+  
+# TODO: Move algorithms for calculating area, calculating perimeter and turtle plotting to the Polygon object
+# in progress
     
 # driver ends here
