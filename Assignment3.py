@@ -45,6 +45,7 @@ class Polygon:
         self.__sides = 0
         self.__vertices = 0
         self.__head = point()  # a null point with a null Next field
+        self.__isregular = True
 
     def add_point(self, x: float, y: float):
         # initialize a point object V
@@ -96,10 +97,11 @@ class Polygon:
 
 # driver for the polygon class
 #from poly import *
+import turtle
 
 # Irash Gilani
 # 846852
-# Driver for polygon program
+# Driver for polygon program (part 2)
 
 # variable dictionary;
 # S - The string fed into GetNumeric to return an x and y coordinate
@@ -216,11 +218,12 @@ print(Poly)  # this should print the entire linked list of points as string
 #print("sides:", Poly.getSides())
 
 # a boolean for checking if a polygon is regular or not regular
-# will return false if all of the angles or side lengths are not equal 
+# will return false if any of the angles or side lengths are unequal with the one that came
+# before them 
 isregular = True
 
-# an array to be made up of the distances between each successive pair of points, to be used in
-# permimeter calculations if the polygon is not regular
+# an array to be made up of the distances between each successive pair of points 
+# to be used in permimeter calculations if the polygon is not regular
 distarr = []
 
 # below is a for loop that goes through all points in the polygon
@@ -237,20 +240,24 @@ for ptnum in range(1, len(ptarr)):
     pt1 = point(pair1[0], pair1[1])
     pt2 = point(pair2[0], pair2[1])
     
+    # distance between current and previous point is obtained and appended to distarr
     dist = pt1.distance(pt2)
     distarr.append(dist)
+    
+    # obtains the dot product of the current and previous point
     #print("distance:", dist)
     dotp = dotprod(pair1, pair2)
     #print("dot product:", dotp)
+    # obtains the magnitude of the current and previous point
     mag2p = magnitude(pair1)*magnitude(pair2)
     #print("magnitude of both points:", mag2p)
     
-    # to get an angle between two points,
-    # run cosine inverse of the dotproduct of two vectors divided by the magnitude of two vectors
+    # obtains the angle between the two points by running cosine inverse of the dot product
+    # of the two vectors divided by the magnitude of the two vectors
     angle = math.acos(dotp / mag2p)
     #print("angle in rads:", angle)
     
-    # initializes prevdist and prevangle before first check on first point to prevent error
+    # initializes prevdist and prevangle before first check on first point to prevent an error
     if ptnum == 1:
         prevdist = dist
         prevangle = angle
@@ -283,10 +290,6 @@ if ptnum == len(ptarr) - 1:
     if prevdist != dist or prevangle != angle:
         isregular = False
 
-
-
-
-
 #print(isregular)
     
 perimeter = 0
@@ -309,28 +312,71 @@ area = 0
 
 # if the polygon is regular, the area is found using the formula below 
 if isregular == True:
-    area = ((dist**2)(sides)) / (4)(math.tan(180/sides))
+    area = ((dist**2)*(sides)) / (4)*(math.tan(180/sides))
+# if the polygon is irregular, the area is found using the process below
 else:
     prod1 = 0
     prod2 = 0
     
-    for ptnum in range(len(ptarr)):
+    for ptnum in range(len(ptarr)): # goes through every coordinate in ptarr
         if ptnum != len(ptarr) - 1:
-            vert1 = getNumeric(ptarr[ptnum])
-            vert2 = getNumeric(ptarr[ptnum + 1])
+            vert1 = getNumeric(ptarr[ptnum]) # the current coordinate
+            vert2 = getNumeric(ptarr[ptnum + 1]) # the coordinate after the current coordinate
             
+            # multiplies the x value of the current point by the y value of the next coordinate
+            # and adds it to the first sum of the products
             prod1 += vert1[0]*vert2[1]
+            # multiplies the y value of the current point by the x value of the next coordinate
+            # and adds it to the second sum of the products
             prod2 += vert1[1]*vert2[0]
         else:
+            # when ptnum is on the last point, perform the algorithim above using the last and first
+            # coordinates as the current and next coordinates
              vert1 = getNumeric(ptarr[ptnum])
              vert2 = getNumeric(ptarr[0])
              
              prod1 += vert1[0]*vert2[1]
              prod2 += vert1[1]*vert2[0]
+             
     area = (prod1 - prod2) / 2
     
 #print(area)
             
+# below is code for displaying the polygon on Turtle     
+
+t = turtle.Turtle()
+turtle.bgcolor("white")
+turtle.tracer(0, 0)
+mult = 20
+
+t.penup()
+
+for ptnum in range(len(ptarr)):
+    # if the last point has not been reached, perform the below code
+    if ptnum != len(ptarr) - 1:
+        # first point corresponds to ptnum
+        pt1 = getNumeric(ptarr[ptnum])
+        # second point corresponds to ptnum + 1
+        pt2 = getNumeric(ptarr[ptnum + 1])
         
+        # move plotter to the first point
+        t.goto(pt1[0]*mult, pt1[1]*mult)
+        # draws a line from the first point to the second point
+        t.pendown()
+        t.goto(pt2[0]*mult, pt2[1]*mult)
+    else:
+        # if the last point has been reached, draw a line from the
+        # last coordinate to the first coordinate
+        # same process as above
+        pt1 = getNumeric(ptarr[ptnum])
+        pt2 = getNumeric(ptarr[0])
+        
+        t.goto(pt1[0]*mult, pt1[1]*mult)
+        t.pendown()
+        t.goto(pt2[0]*mult, pt2[1]*mult)
+        # stops drawing
+        t.penup()
+        
+# TODO: Move calculations for area and perimeter to the object 
     
 # driver ends here
