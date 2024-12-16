@@ -1,4 +1,5 @@
 # poly.py starts here
+# TODO: Make a header for poly.py
 
 import math
 
@@ -93,6 +94,136 @@ class Polygon:
       self.__mag = math.sqrt(self.__mag)
       
       return self.__mag
+    
+    def area(self):
+        self.__area = 0
+        
+        self.__V = self.__head.next # sets the list traverser to the first item in the linked list
+        # traverses the linked list to gather the sum of all distances
+        while self.__V != None: # loop continues until the pointer leads to a null value
+            self.__currpoint = self.__V
+            if self.__V.next != None: # performs below code if the next item is not null
+                self.__nextpoint = self.__V.next
+                
+                self.__dist = self.nextpoint.distance(self.__currpoint) # calculates the distance between the
+                                                                        # current and next point
+            
+                self.__distsum += self.__dist # adds the distance to distsum
+                                                                            
+                # gets the dot product of the next and current point
+                self.__dotp = self.dotprod((self.nextpoint.getX, self.nextpoint.getY), (self.currpoint.getX, self.currpoint.getY))
+                # gets the magnitude of the next and current point
+                self.__mag = self.magnitude((self.nextpoint.getX, self.nextpoint.getY), (self.currpoint.getX, self.currpoint.getY))
+                
+                # obtains the angle between the two points by running cosine inverse of the dot product
+                # of the two vectors divided by the magnitude of the two vectors
+                self.__angle = math.acos(self.__dotp / self.__mag)
+                                                                      
+            if self.__V.next == None: # if the traverser is on the last item
+                self.__distsum += self.__V.distance(self.__head.next) # adds the distance between the last
+                                                                      # and the first point to distsum
+                                                                      
+            # initializes prevdist and prevangle before first check on first point to prevent an error                                                          
+            if self.__V == self.__head.next:
+                self.__prevdist = self.__dist
+                self.__prevangle = self.__angle
+                
+            if self.__prevdist != self.__dist or self.__prevangle != self.__angle:
+                self.__isregular = False
+                
+            self.__V = self.__V.next # moves to the next item
+            
+            
+        # below code makes a calculation for area depending on whether or not the polygon is regular
+        # if the polygon is regular, the area is found using the formula below
+        if self.__isregular == True:
+            self.__area = ((self.__dist**2)*(self.__sides)) / (4)*(math.tan(180/self.__sides))
+            
+            return self.__area
+        # if the polygon is irregular, the area is found using the process below
+        else:
+            self.__prod1 = 0
+            self.__prod2 = 0
+            #traverse the linked list
+            self.__V = self.__head.next # sets the list traverser to the first item in the linked list
+            
+            while self.__V != None: # loop continues until the pointer leads to a null value
+                self.__vert1 = (self.__V.getX, self.__V.getY) # the current coordinate
+                self.__vert2 = (self.__V.next.getX, self.__V.next.getY) # the coordinate after the current coordinate
+                
+                # multiplies the x value of the current point by the y value of the next coordinate
+                # and adds it to the first sum of the products
+                self.__prod1 += vert1[0]*vert2[1]
+                
+                # multiplies the y value of the current point by the x value of the next coordinate
+                # and adds it to the second sum of the products
+                self.__prod2 += vert1[1]*vert2[0]
+                
+                if self.__V.next == None:
+                    # when the traverser is on the last coordinate, perform the algorithim
+                    # above using the last and first coordinates as the current and next coordinates
+                    self.__vert1 = (self.__V.getX, self.__V.getY)
+                    self.__vert2 = (self.__head.next.getX, self.__head.next.getY)
+                
+                    self.__prod1 += vert1[0]*vert2[1]
+                    self.__prod2 += vert1[1]*vert2[0]
+                
+                self.__V = self.__V.next # moves to the next item
+                
+            self.__area = (self.__prod1 - self.__prod2) / 2
+            
+            return self.__area
+            
+    def perimeter(self):
+        self.__perimeter = 0
+          
+        self.__V = self.__head.next # sets the list traverser to the first item in the linked list
+        
+        # traverses the linked list to gather the sum of all distances
+        while self.__V != None: # loop continues until the pointer leads to a null value
+            self.__currpoint = self.__V
+            if self.__V.next != None: # performs below code if the next item is not null
+                self.__nextpoint = self.__V.next
+                    
+                self.__dist = self.nextpoint.distance(self.__currpoint) # calculates the distance between the
+                                                                        # current and next point
+                
+                self.__distsum += self.__dist # adds the distance to distsum
+                                                                                
+                # gets the dot product of the next and current point
+                self.__dotp = self.dotprod((self.nextpoint.getX, self.nextpoint.getY), (self.currpoint.getX, self.currpoint.getY))
+                # gets the magnitude of the next and current point
+                self.__mag = self.magnitude((self.nextpoint.getX, self.nextpoint.getY), (self.currpoint.getX, self.currpoint.getY))
+                    
+                # obtains the angle between the two points by running cosine inverse of the dot product
+                # of the two vectors divided by the magnitude of the two vectors
+                self.__angle = math.acos(self.__dotp / self.__mag)
+                                                                          
+            if self.__V.next == None: # if the traverser is on the last item
+                self.__distsum += self.__V.distance(self.__head.next) # adds the distance between the last
+                                                                      # and the first point to distsum
+                                                                          
+            # initializes prevdist and prevangle before first check on first point to prevent an error                                                          
+            if self.__V == self.__head.next:
+                self.__prevdist = self.__dist
+                self.__prevangle = self.__angle
+                    
+            if self.__prevdist != self.__dist or self.__prevangle != self.__angle:
+                self.__isregular = False
+                    
+            self.__V = self.__V.next # moves to the next item
+            
+        # if the polygon is regular, the perimeter is found by multiplying the distance of one
+        # side by the amount of sides
+        if self.__isregular == True:
+            self.__perimeter = self.__dist*self.__sides
+            return self.__perimeter
+        # if the polygon is irregular, the perimeter is found by taking the sum
+        # of all of the distances
+        else:
+            self.__perimeter = self.__distsum
+            return self.__perimeter
+            
 
     def __str__(self):
         # Use a traversal to generate the entire set of points separated by "->" as string
@@ -365,38 +496,38 @@ else:
             
 # below is code for displaying the polygon on Turtle     
 
-t = turtle.Turtle()
-turtle.bgcolor("white")
-turtle.tracer(0, 0)
-mult = 20
-
-t.penup()
-
-for ptnum in range(len(ptarr)):
-    # if the last point has not been reached, perform the below code
-    if ptnum != len(ptarr) - 1:
-        # first point corresponds to ptnum
-        pt1 = getNumeric(ptarr[ptnum])
-        # second point corresponds to ptnum + 1
-        pt2 = getNumeric(ptarr[ptnum + 1])
-        
-        # move plotter to the first point
-        t.goto(pt1[0]*mult, pt1[1]*mult)
-        # draws a line from the first point to the second point
-        t.pendown()
-        t.goto(pt2[0]*mult, pt2[1]*mult)
-    else:
-        # if the last point has been reached, draw a line from the
-        # last coordinate to the first coordinate
-        # same process as above
-        pt1 = getNumeric(ptarr[ptnum])
-        pt2 = getNumeric(ptarr[0])
-        
-        t.goto(pt1[0]*mult, pt1[1]*mult)
-        t.pendown()
-        t.goto(pt2[0]*mult, pt2[1]*mult)
-        # stops drawing
-        t.penup()
+# t = turtle.Turtle()
+# turtle.bgcolor("white")
+# turtle.tracer(0, 0)
+# mult = 20
+# 
+# t.penup()
+# 
+# for ptnum in range(len(ptarr)):
+#     # if the last point has not been reached, perform the below code
+#     if ptnum != len(ptarr) - 1:
+#         # first point corresponds to ptnum
+#         pt1 = getNumeric(ptarr[ptnum])
+#         # second point corresponds to ptnum + 1
+#         pt2 = getNumeric(ptarr[ptnum + 1])
+#         
+#         # move plotter to the first point
+#         t.goto(pt1[0]*mult, pt1[1]*mult)
+#         # draws a line from the first point to the second point
+#         t.pendown()
+#         t.goto(pt2[0]*mult, pt2[1]*mult)
+#     else:
+#         # if the last point has been reached, draw a line from the
+#         # last coordinate to the first coordinate
+#         # same process as above
+#         pt1 = getNumeric(ptarr[ptnum])
+#         pt2 = getNumeric(ptarr[0])
+#         
+#         t.goto(pt1[0]*mult, pt1[1]*mult)
+#         t.pendown()
+#         t.goto(pt2[0]*mult, pt2[1]*mult)
+#         # stops drawing
+#         t.penup()
   
 # TODO: Move algorithms for calculating area, calculating perimeter and turtle plotting to the Polygon object
 # in progress
