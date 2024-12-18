@@ -1,11 +1,43 @@
 # poly.py starts here
-# TODO: Make a header for poly.py
+
 # Irash Gilani
 # 846852
-# poly.py object for Assignment 3
+# Polygon Class for Assignment 3
 
 # Variable Dictionary:
-#
+# self.__x - the x coordinate of a point object, in float form
+# self.__y - the y coordinate of a point object, in float form
+# self.__next - the pointer on a point object
+# self.__sides - the amount of sides in the polygon
+# self.__vertices - the amount of vertices in the polygon
+# self.__head - a point with null value, which is meant to point at the first point in a polygon
+# self.__isregular - a boolean that indicates whether or not a polygon is regular
+# self.__distsum - the sum of all side lengths in a polygon
+# V - a global point object that is used for adding a point to the linked list of points
+# vecA - one of the two vectors used in the algorithm for getting the dot product between two vectors
+# vecB - the other of the two vectors used in the algorithm for getting the dot product between two vectors
+# self.__product - the dot product of two vectors
+# matrix - a matrix that is inputted into the function for getting the magnitude of a matrix
+# self.__mag - the magnitude of a matrix
+# val - an item in a matrix
+# self.__area - the area of the polygon
+# self.__currpoint - the point that the list traverser is currently on
+# self.__nextpoint - the point after the current point the list traverser is on
+# self.__dist - the distance between two points
+# self.__dotp - the dot product of two coordinates
+# self.__mag2p - the product of two coordinates' magnitudes multiplied together
+# self.__angle - the internal angle between two points
+# self.__vert1 - a coordinate used in the algorithm for calculating the area of an irregular polygon
+# self.__vert2 - a coordinate that comes after vert1, used for calculating the area of an irregular polygon
+# self.__prod1 - the sum of the products of x coordinates multiplied by the next y coordinates
+# self.__prod2 - the sum of the products of y coordinates multiplied by the next x coordinates
+# self.__perimeter - the perimeter of the polygon
+# self.__t - a variable used for calling Turtle
+# self.__mult - a value that the x and y coordinates of two points on Turtle are multiplied by to make the shape larger and easier to see
+# self.__pt1 - a point on the Turtle display that the drawer moves from
+# self.__pt2 - a point on the Turtle display that the drawer moves towards
+# self.__linkedliststr - a string that contains all of the coordinates in the linked list separated by arrows
+
 
 import math
 import turtle
@@ -134,11 +166,12 @@ class Polygon:
                 self.__distsum += self.__V.distance(self.__head.next) # adds the distance between the last
                                                                       # and the first point to distsum
                                                                       
-            # initializes prevdist and prevangle before first check on first point to prevent an error                                                          
+            # initializes prevdist and prevangle before the check on first point to prevent an error                                                          
             if self.__V == self.__head.next:
                 self.__prevdist = self.__dist
                 self.__prevangle = self.__angle
-                
+            
+            # if any of the angles or side lengths are unequal with each other, the polygon is irregular
             if self.__prevdist != self.__dist or self.__prevangle != self.__angle:
                 self.__isregular = False
                 
@@ -164,16 +197,13 @@ class Polygon:
                 self.__vert1 = (self.__V.getX(), self.__V.getY()) # the current coordinate
                 self.__vert2 = (self.__V.next.getX(), self.__V.next.getY()) # the coordinate after the current coordinate
                 
-                
                 # multiplies the x value of the current point by the y value of the next coordinate
                 # and adds it to the first sum of the products
                 self.__prod1 += self.__vert1[0]*self.__vert2[1]
                 
-                
                 # multiplies the y value of the current point by the x value of the next coordinate
                 # and adds it to the second sum of the products
                 self.__prod2 += self.__vert1[1]*self.__vert2[0]
-                
                 
                 self.__V = self.__V.next # moves to the next item
                 
@@ -182,8 +212,6 @@ class Polygon:
                 # above using the last and first coordinates as the current and next coordinates
                 self.__vert1 = (self.__V.getX(), self.__V.getY())
                 self.__vert2 = (self.__head.next.getX(), self.__head.next.getY())
-                
-                
                 
                 self.__prod1 += self.__vert1[0]*self.__vert2[1]
                 self.__prod2 += self.__vert1[1]*self.__vert2[0]
@@ -204,7 +232,7 @@ class Polygon:
                 self.__nextpoint = self.__V.next
                     
                 self.__dist = self.__nextpoint.distance(self.__currpoint) # calculates the distance between the
-                                                                        # current and next point
+                                                                          # current and next point
                 
                 self.__distsum += self.__dist # adds the distance to distsum
                                                                                 
@@ -228,7 +256,8 @@ class Polygon:
             if self.__V == self.__head.next:
                 self.__prevdist = self.__dist
                 self.__prevangle = self.__angle
-                    
+            
+            # if any of the angles or side lengths are unequal with each other, the polygon is irregular
             if self.__prevdist != self.__dist or self.__prevangle != self.__angle:
                 self.__isregular = False
                     
@@ -246,7 +275,7 @@ class Polygon:
             return self.__perimeter
             
             
-    def drawshape(self):
+    def draw(self):
         self.__t = turtle.Turtle()
         turtle.bgcolor("white")
         turtle.tracer(0, 0)
@@ -317,9 +346,9 @@ class Polygon:
 
 # Irash Gilani
 # 846852
-# Driver for polygon program
+# Driver for the Polygon Program
 
-# variable dictionary;
+# Variable Dictionary;
 # S - The string fed into GetNumeric to return an x and y coordinate
 # x - The x coordinate taken from splitting S, and the x coordinate taken from splitting p
 # y - The y coordinate taken from splitting S, and the y coordinate taken from splitting p
@@ -328,7 +357,6 @@ class Polygon:
 # p - a coordinate in polydata that has had its brackets removed
 # pt - a point object created from the x and y values taken from p
 # poly - a polygon object
-# isregular - a boolean that indicates whether or not a polygon is regular
 # pair - a pair of x and y coordinates in tuple form taken from processing a point through getNumeric
 
 
@@ -388,10 +416,10 @@ for pt in ptarr:
 
 print(Poly)  # this should print the entire linked list of points as string
 
-print(Poly.perimeter()) # prints the perimeter
+print("Perimeter =", Poly.perimeter()) # prints the perimeter
            
-print(Poly.area()) # prints the area              
+print("Area =", Poly.area()) # prints the area              
 
-Poly.drawshape() # displays the polygon on Turtle
+Poly.draw() # displays the polygon on Turtle
     
 # driver ends here
