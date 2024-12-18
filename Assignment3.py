@@ -2,7 +2,7 @@
 
 # Irash Gilani
 # 846852
-# Polygon Class for Assignment 3
+# Polygon Object for Assignment 3
 
 # Variable Dictionary:
 # self.__x - the x coordinate of a point object, in float form
@@ -299,6 +299,7 @@ class Polygon:
                 self.__t.pendown()
                 self.__t.goto(self.__pt2[0]*self.__mult, self.__pt2[1]*self.__mult)
                 
+                
                 self.__V = self.__V.next
             else:
                 # if the last point has been reached, draw a line from the
@@ -314,10 +315,11 @@ class Polygon:
                 # draws a line from the first point to the second point
                 self.__t.pendown()
                 self.__t.goto(self.__pt2[0]*self.__mult, self.__pt2[1]*self.__mult)
-                
+
                 self.__t.penup() # stops drawing
                 
                 self.__V = self.__V.next # ends the while loop
+        turtle.update()
         
 
     def __str__(self):
@@ -416,9 +418,9 @@ for pt in ptarr:
 
 print(Poly)  # this should print the entire linked list of points as string
 
-print("Perimeter =", Poly.perimeter()) # prints the perimeter
+print("Perimeter = %.2f" % Poly.perimeter()) # prints the perimeter
            
-print("Area =", Poly.area()) # prints the area              
+print("Area = %.2f" % Poly.area()) # prints the area              
 
 Poly.draw() # displays the polygon on Turtle
     
