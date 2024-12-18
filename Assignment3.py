@@ -1,5 +1,7 @@
 # poly.py starts here
 
+# TODO: make a function for getting the isregular boolean, and put the algorithm for calculating side distances in it that area and perimeter call
+
 # Irash Gilani
 # 846852
 # Polygon Object for Assignment 3
