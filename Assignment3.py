@@ -133,9 +133,12 @@ class Polygon:
       self.__mag = math.sqrt(self.__mag)
       
       return self.__mag
-
+    
     # a function for getting the boolean value of whether or not the polygon is regular
+    # if getRegular returns True, then the polygon is regular
+    # if it returns False, the polygon is irregular
     def getRegular(self):
+        self.__distsum = 0
         self.__V = self.__head.next # sets the list traverser to the first item in the linked list
         # traverses the linked list to gather the sum of all distances
         while self.__V != None: # loop continues until the pointer leads to a null value
@@ -268,6 +271,7 @@ class Polygon:
                 # if the last point has been reached, draw a line from the
                 # last coordinate to the first coordinate using the
                 # same process as above
+                
                 #point one
                 self.__pt1 = (self.__V.getX(), self.__V.getY())
                 #point two
@@ -381,9 +385,14 @@ for pt in ptarr:
 
 print(Poly)  # this should print the entire linked list of points as string
 
+if Poly.getRegular() == True:
+    print("Polygon is regular.")
+else:
+    print("Polgon is irregular.")
+
 print("Perimeter = %.2f" % Poly.perimeter()) # prints the perimeter
            
-print("Area = %.2f" % Poly.area()) # prints the area              
+print("Area = %.2f" % Poly.area()) # prints the area
 
 Poly.draw() # displays the polygon on Turtle
     
