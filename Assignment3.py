@@ -135,10 +135,9 @@ class Polygon:
       self.__mag = math.sqrt(self.__mag)
       
       return self.__mag
-    
-    def area(self):
-        self.__area = 0
-        
+
+    # a function for getting the boolean value of whether or not the polygon is regular
+    def getRegular(self):
         self.__V = self.__head.next # sets the list traverser to the first item in the linked list
         # traverses the linked list to gather the sum of all distances
         while self.__V != None: # loop continues until the pointer leads to a null value
@@ -179,11 +178,15 @@ class Polygon:
                 
             self.__V = self.__V.next # moves to the next item
             
-            
+        return self.__isregular
+    
+    def area(self):
+        self.__area = 0
+        
         # below code makes a calculation for area depending on whether or not the polygon is regular
         # if the polygon is regular, the area is found using the formula below
         
-        if self.__isregular == True:
+        if self.getRegular() == True:
             self.__area = ((self.__dist**2)*(self.__sides)) / (4)*(math.tan(180/self.__sides))
             
             return self.__area
@@ -225,49 +228,9 @@ class Polygon:
     def perimeter(self):
         self.__perimeter = 0
           
-        self.__V = self.__head.next # sets the list traverser to the first item in the linked list
-        
-        # traverses the linked list to gather the sum of all distances
-        while self.__V != None: # loop continues until the pointer leads to a null value
-            self.__currpoint = self.__V
-            if self.__V.next != None: # performs below code if the next item is not null
-                self.__nextpoint = self.__V.next
-                    
-                self.__dist = self.__nextpoint.distance(self.__currpoint) # calculates the distance between the
-                                                                          # current and next point
-                
-                self.__distsum += self.__dist # adds the distance to distsum
-                                                                                
-                # gets the dot product of the next and current point
-                self.__dotp = self.dotprod((self.__nextpoint.getX(), self.__nextpoint.getY()), (self.__currpoint.getX(), self.__currpoint.getY()))
-                # gets the magnitude of the next and current point
-                self.__mag2p = self.magnitude((self.__nextpoint.getX(), self.__nextpoint.getY())) * self.magnitude((self.__currpoint.getX(), self.__currpoint.getY()))
-                    
-                # obtains the angle between the two points by running cosine inverse of the dot product
-                # of the two vectors divided by the magnitude of the two vectors
-                if self.__dotp and self.__mag2p != 0:
-                    self.__angle = math.acos(self.__dotp / self.__mag2p)
-                else:
-                    self.__angle = 90
-                                                                          
-            if self.__V.next == None: # if the traverser is on the last item
-                self.__distsum += self.__V.distance(self.__head.next) # adds the distance between the last
-                                                                      # and the first point to distsum
-                                                                          
-            # initializes prevdist and prevangle before first check on first point to prevent an error                                                          
-            if self.__V == self.__head.next:
-                self.__prevdist = self.__dist
-                self.__prevangle = self.__angle
-            
-            # if any of the angles or side lengths are unequal with each other, the polygon is irregular
-            if self.__prevdist != self.__dist or self.__prevangle != self.__angle:
-                self.__isregular = False
-                    
-            self.__V = self.__V.next # moves to the next item
-            
         # if the polygon is regular, the perimeter is found by multiplying the distance of one
         # side by the amount of sides
-        if self.__isregular == True:
+        if self.getRegular() == True:
             self.__perimeter = self.__dist*self.__sides
             return self.__perimeter
         # if the polygon is irregular, the perimeter is found by taking the sum
