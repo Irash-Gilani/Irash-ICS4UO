@@ -95,12 +95,11 @@ class Polynomial:
         
 # polynomial.py ends here
 
-
-# driver starts here
+# IVT.py starts here
 
 # Irash Gilani
 # 846852
-# Driver Code for the Final Project
+# IVT Object for the Final Project
 
 # Variable Dictionary:
 #
@@ -111,7 +110,49 @@ class Polynomial:
 #
 #
 
-#from polynomial import *
+#from polynomial import Polynomial
+
+class IVT:
+# an object for approximating the zeroes of a polynomial using
+# two x values
+    def __init__(self, x1, x2):
+        self.__x1 = x1
+        self.__x2 = x2
+        # self.__x1 is assumed to be smaller than self.__x2
+        self.__preconditionsmet = False
+        
+        # below code is for checking if the preconditions are met
+        if self.__x1 != self.__x2:
+        # first precondition is whether or not x1 is unequal to x2
+        # if the first precondition is true, move on to the next precondition
+            self.__y1 = Polynomial.f(self.__x1)
+            self.__y2 = Polynomial.f(self.__x2)
+            
+            if ((self.__y1 > 0 and self.__y2 < 0) or (self.__y1 < 0 and self.__y2 > 0)):
+            # second precondition is whether or not f(x1) has an opposite sign to f(x2),
+            # this is checked by looking at whether or not the two variables are smaller and bigger
+            # than zero
+                self.__preconditionsmet = True
+        
+
+# IVT.py ends here
+
+# polynomial driver starts here
+
+# Irash Gilani
+# 846852
+# Driver Code for the Polynomial Object in the Final Project
+
+# Variable Dictionary:
+#
+#
+#
+#
+#
+#
+#
+
+#from polynomial import Polynomial
 
 P = Polynomial([0, 0, 1, 2, 0, 3, 0, 0])
 print(P)
@@ -119,4 +160,21 @@ for i in range(10):
  print(i, P.f(i))
 print("The order is", P.get_order())
 
-# driver ends here
+# polynomial driver ends here
+
+# ivtdriver.py starts here
+
+# Irash Gilani
+# 846852
+# Driver Code for the IVT Object in the Final Project
+
+# Variable Dictionary:
+#
+#
+#
+#
+#
+#
+#
+
+# ivtdriver.py ends here
