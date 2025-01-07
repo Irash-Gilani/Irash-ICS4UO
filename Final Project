@@ -17,11 +17,11 @@
 class Polynomial:
     def __init__(self, coefficients):
         # the input variable "coefficients" is an array
-        # the coefficients are in standard form 
+        # the coefficients are assumed to be in standard form 
         self.__coeffs = []
         
-        # code below is for ignoring the leading zeroes in the input list, then
-        # appending the rest of the numbers to self.__coeffs
+        # the code below is for ignoring the leading zeroes in the input list,
+        # then appending the rest of the numbers to self.__coeffs
         self.__pastleadingzeroes = False
         
         for idx in range(len(coefficients)):
@@ -52,21 +52,43 @@ class Polynomial:
     # a function for getting the value of y using the polynomial and an
     # inputted x value 
         self.__y = 0
-        self.__exp = 0
+        self.__exponent = 0
         
         for idx in range(len(self.__coeffs) - 1, -1, -1):
             # a for loop that goes from the last coefficient in self.__coeffs
             # to the first coefficient
             
             if idx == len(self.__coeffs) - 1:
-                self.__y += self.__coeffs[idx]
+                # if the loop is on the last coefficient in self.__coeffs,
+                # add the coefficient times x without an exponent
+                self.__y += self.__coeffs[idx] * x
             else:
-                self.__exp += 1
+                # if the loop is on any other number, the exponent is increased by one
+                # with every step, and is 
+                self.__exponent += 1
+                self.__y += (self.__coeffs[idx]) * x**self.__exponent
+        
+        return self.__y
                 
                 
     
     def __str__(self):
-        return str(self.__coeffs)
+        # a function for printing the polynomial including its exponents
+        self.__polystring = ""
+        self.__index = 0
+        
+        for exp in range(len(self.__coeffs) - 1, -1, -1):
+            # goes backwards through self.__coeffs, using the step value as the exponent and increasing
+            # self.__index by one with each step, and adding each value in the polynomial using the
+            # exponent and self.__index
+            self.__polystring += (("%dx^%d" % (self.__coeffs[self.__index], exp)))
+            self.__index += 1
+            
+            if exp != 0:
+                # adds a plus sign if the loop is not on the last value in self.__coeffs
+                self.__polystring += " + "
+        
+        return self.__polystring
                 
                 
             
@@ -93,10 +115,8 @@ class Polynomial:
 
 P = Polynomial([0, 0, 1, 2, 0, 3, 0, 0])
 print(P)
-# for i in range(10):
-#  print(i, P.f(i))
+for i in range(10):
+ print(i, P.f(i))
 print("The order is", P.get_order())
-
-P.f(5)
 
 # driver ends here
