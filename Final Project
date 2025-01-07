@@ -1,0 +1,102 @@
+# polynomial.py starts here
+
+# Irash Gilani
+# 846852
+# Polynomial Object for the Final Project
+
+# Variable Dictionary:
+#
+#
+#
+#
+#
+#
+#
+#
+
+class Polynomial:
+    def __init__(self, coefficients):
+        # the input variable "coefficients" is an array
+        # the coefficients are in standard form 
+        self.__coeffs = []
+        
+        # code below is for ignoring the leading zeroes in the input list, then
+        # appending the rest of the numbers to self.__coeffs
+        self.__pastleadingzeroes = False
+        
+        for idx in range(len(coefficients)):
+            if coefficients[idx] != 0:
+                self.__pastleadingzeroes = True
+            if self.__pastleadingzeroes == True:
+                self.__coeffs.append(coefficients[idx])
+                
+    def get_order(self):
+    # a function for getting the order of the polynomial
+        self.__order = 0
+        
+        for idx in range(len(self.__coeffs) - 1):
+        # ends one unit less than the length due to the last
+        # coefficient not counting in the order    
+            
+            
+            if self.__coeffs[idx] != 0 and idx != len(self.__coeffs):
+                # if the current value in the loop does not equal zero and is
+                # not the last number in the polynomial, add the order of the
+                # coefficient to self.__order
+                #print((len(self.__coeffs) - 1)- idx)
+                self.__order += ((len(self.__coeffs) - 1) - idx)
+                
+        return self.__order
+    
+    def f(self, x):
+    # a function for getting the value of y using the polynomial and an
+    # inputted x value 
+        self.__y = 0
+        self.__exp = 0
+        
+        for idx in range(len(self.__coeffs) - 1, -1, -1):
+            # a for loop that goes from the last coefficient in self.__coeffs
+            # to the first coefficient
+            
+            if idx == len(self.__coeffs) - 1:
+                self.__y += self.__coeffs[idx]
+            else:
+                self.__exp += 1
+                
+                
+    
+    def __str__(self):
+        return str(self.__coeffs)
+                
+                
+            
+        
+# polynomial.py ends here
+
+
+# driver starts here
+
+# Irash Gilani
+# 846852
+# Driver Code for the Final Project
+
+# Variable Dictionary:
+#
+#
+#
+#
+#
+#
+#
+
+#from polynomial import *
+
+P = Polynomial([0, 0, 1, 2, 0, 3, 0, 0])
+print(P)
+# for i in range(10):
+#  print(i, P.f(i))
+print("The order is", P.get_order())
+
+P.f(5)
+
+# driver ends here
