@@ -102,15 +102,17 @@ class Polynomial:
 
 #from polynomial import Polynomial
 
-class IVT:
+class IVT():
 # an object for approximating the zeroes of a polynomial using
 # two x values
-    def __init__(self, x1, x2):
+    def __init__(self, Poly, x1, x2):
+        
+    
         self.__x1 = x1
         self.__x2 = x2
         self.__zerofound = False
         
-        
+
         while self.__zerofound == False:
             # a while loop that will always run until a value is returned
             
@@ -123,8 +125,8 @@ class IVT:
             # first precondition is whether or not x1 is unequal to x2
             # if the first precondition is true, move on to the next precondition
             
-                self.__y1 = Polynomial.f(self.__x1)
-                self.__y2 = Polynomial.f(self.__x2)
+                self.__y1 = Polynomial.f(Poly, self.__x1)
+                self.__y2 = Polynomial.f(Poly, self.__x2)
                 # the values of f(x1) and f(x2) are initialized
                 
                 if ((self.__y1 > 0 and self.__y2 < 0) or (self.__y1 < 0 and self.__y2 > 0)):
@@ -193,6 +195,8 @@ print("The order is", P.get_order())
 
 # ivtdriver.py starts here
 
+
+
 # Irash Gilani
 # 846852
 # Driver Code for the IVT Object in the Final Project
@@ -205,5 +209,9 @@ print("The order is", P.get_order())
 #
 #
 #
+
+#from IVT import IVT
+
+IVT(P, -2, -1)
 
 # ivtdriver.py ends here
