@@ -32,22 +32,12 @@ class Polynomial:
                 
     def get_order(self):
     # a function for getting the order of the polynomial
-        self.__order = 0
         
-        for idx in range(len(self.__coeffs) - 1):
-        # ends one unit less than the length due to the last
-        # coefficient not counting in the order    
-            
-            
-            if self.__coeffs[idx] != 0 and idx != len(self.__coeffs):
-                # if the current value in the loop does not equal zero and is
-                # not the last number in the polynomial, add the order of the
-                # coefficient to self.__order
-                #print((len(self.__coeffs) - 1)- idx)
-                self.__order += ((len(self.__coeffs) - 1) - idx)
-                
-        return self.__order
-    
+        for exp in range(len(self.__coeffs) - 1, -1, -1):
+        # goes backwards through self.__coeffs to find the exponent of the first variable    
+            if exp == len(self.__coeffs) - 1:
+                return exp
+        
     def f(self, x):
     # a function for getting the value of y using the polynomial and an
     # inputted x value 
@@ -118,21 +108,60 @@ class IVT:
     def __init__(self, x1, x2):
         self.__x1 = x1
         self.__x2 = x2
-        # self.__x1 is assumed to be smaller than self.__x2
-        self.__preconditionsmet = False
+        self.__zerofound = False
         
-        # below code is for checking if the preconditions are met
-        if self.__x1 != self.__x2:
-        # first precondition is whether or not x1 is unequal to x2
-        # if the first precondition is true, move on to the next precondition
-            self.__y1 = Polynomial.f(self.__x1)
-            self.__y2 = Polynomial.f(self.__x2)
+        
+        while self.__zerofound == False:
+            # a while loop that will always run until a value is returned
             
-            if ((self.__y1 > 0 and self.__y2 < 0) or (self.__y1 < 0 and self.__y2 > 0)):
-            # second precondition is whether or not f(x1) has an opposite sign to f(x2),
-            # this is checked by looking at whether or not the two variables are smaller and bigger
-            # than zero
-                self.__preconditionsmet = True
+            
+            # self.__x1 is assumed to be smaller than self.__x2
+            self.__preconditionsmet = False
+            
+            # below code is for checking if the preconditions are met
+            if self.__x1 != self.__x2:
+            # first precondition is whether or not x1 is unequal to x2
+            # if the first precondition is true, move on to the next precondition
+            
+                self.__y1 = Polynomial.f(self.__x1)
+                self.__y2 = Polynomial.f(self.__x2)
+                # the values of f(x1) and f(x2) are initialized
+                
+                if ((self.__y1 > 0 and self.__y2 < 0) or (self.__y1 < 0 and self.__y2 > 0)):
+                # second precondition is whether or not the sign of f(x1) is the opposite of the sign of f(x2),
+                # this is checked by looking at whether or not one variable is smaller than zero while the
+                # other is bigger than zero
+                    self.__preconditionsmet = True
+                    
+                    
+            if self.__preconditionsmet == False:
+                # if the preconditions are not met, it is assumed that no solution exists
+                return ("There is no solution between", self.__x1, "and", self.__x2)
+            else:
+                # if the preconditions are met, the average of x1 and x2 is found
+                self.__x0 = (self.__x1 + self.__x2) / 2
+                
+                
+                while (self.__x1 < self.__x0 < self.__x2):
+                    if ("%.3f" % Polynomial.f(self.__x0)) == "0.000":
+                        # if f(x0) is sufficiently close enough to zero, where it can be rounded down to
+                        # 0.000, than x0 will be returned
+                        return self.__x0
+                    elif Polynomial.f(self.__x0) > 0:
+                        # if x0 does not sufficiently round to zero, and is larger than 0, it
+                        # is assumed that the zero is inbetween x0 and x2
+                        self.__x1 = self.__x0
+                        # the value of x1 is assigned to x0, breaking the while loop above
+                        # and restarting the algorithm with a new x1 value
+                    elif Polynomial.f(self.__x0) < 0:
+                        # if x0 does not sufficiently round to zero, and is larger than 0, it
+                        # is assumed that the zero is inbetween x1 and x0
+                        self.__x2 = self.__x0
+                    else:
+                        return "error"
+    
+                    
+
         
 
 # IVT.py ends here
