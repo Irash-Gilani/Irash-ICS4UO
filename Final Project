@@ -33,10 +33,18 @@ class Polynomial:
     def get_order(self):
     # a function for getting the order of the polynomial
         
+        if (len(self.__coeffs) - 1) == -1:
+            # if the length of the coefficients array minus 1 is -1, than there
+            # are no coefficients or exponents, leading to an order of 0
+            return 0
+            
         for exp in range(len(self.__coeffs) - 1, -1, -1):
-        # goes backwards through self.__coeffs to find the exponent of the first variable    
-            if exp == len(self.__coeffs) - 1:
+        # goes backwards through self.__coeffs to find the exponent of the first variable
+            if exp == None:
+                return 0
+            elif exp == len(self.__coeffs) - 1:
                 return exp
+            
         
     def f(self, x):
     # a function for getting the value of y using the polynomial and an
@@ -69,14 +77,23 @@ class Polynomial:
         
         for exp in range(len(self.__coeffs) - 1, -1, -1):
             # goes backwards through self.__coeffs, using the step value as the exponent and increasing
-            # self.__index by one with each step, and adding each value in the polynomial using the
-            # exponent and self.__index
-            self.__polystring += (("%dx^%d" % (self.__coeffs[self.__index], exp)))
+            # self.__index by one with each step, and adding each value in the polynomial according to
+            # their exponent and index values
+            
+            self.__polystring += str(self.__coeffs[self.__index])
+            self.__polystring += "x^"
+            self.__polystring += str(exp)
+            # adds "(coefficient)x^(exponent)" to self.__polystring
+            
             self.__index += 1
             
+            
             if exp != 0:
-                # adds a plus sign if the loop is not on the last value in self.__coeffs
                 self.__polystring += " + "
+                # adds a plus sign if the loop is not on the last value in self.__coeffs
+        
+        if self.__polystring == "":
+            self.__polystring = "0"
         
         return self.__polystring
                 
@@ -104,18 +121,20 @@ class Polynomial:
 
 class IVT():
 # an object for approximating the zeroes of a polynomial using
-# two x values
+# two x values and a Polynomial object
     def __init__(self, Poly, x1, x2):
         
     
         self.__x1 = x1
         self.__x2 = x2
+        self.__poly = Poly
         self.__zerofound = False
         
 
+    def solve(self):
+    
         while self.__zerofound == False:
             # a while loop that will always run until a value is returned
-            
             
             # self.__x1 is assumed to be smaller than self.__x2
             self.__preconditionsmet = False
@@ -125,8 +144,8 @@ class IVT():
             # first precondition is whether or not x1 is unequal to x2
             # if the first precondition is true, move on to the next precondition
             
-                self.__y1 = Polynomial.f(Poly, self.__x1)
-                self.__y2 = Polynomial.f(Poly, self.__x2)
+                self.__y1 = Polynomial.f(self.__poly, self.__x1)
+                self.__y2 = Polynomial.f(self.__poly, self.__x2)
                 # the values of f(x1) and f(x2) are initialized
                 
                 if ((self.__y1 > 0 and self.__y2 < 0) or (self.__y1 < 0 and self.__y2 > 0)):
@@ -138,27 +157,29 @@ class IVT():
                     
             if self.__preconditionsmet == False:
                 # if the preconditions are not met, it is assumed that no solution exists
-                return ("There is no solution between", self.__x1, "and", self.__x2)
+                return ("There is no solution between %.2f and %.2f" % (self.__x1, self.__x2))
             else:
                 # if the preconditions are met, the average of x1 and x2 is found
                 self.__x0 = (self.__x1 + self.__x2) / 2
                 
                 
                 while (self.__x1 < self.__x0 < self.__x2):
-                    if ("%.3f" % Polynomial.f(self.__x0)) == "0.000":
-                        # if f(x0) is sufficiently close enough to zero, where it can be rounded down to
-                        # 0.000, than x0 will be returned
+                    if ("%.3f" % Polynomial.f(self.__poly, self.__x0)) == "0.000":
+                        # if f(x0) is sufficiently close enough to zero, to the point where it 
+                        # can be rounded down to 0.000, than x0 will be returned
                         return self.__x0
-                    elif Polynomial.f(self.__x0) > 0:
-                        # if x0 does not sufficiently round to zero, and is larger than 0, it
+                    elif Polynomial.f(self.__poly, self.__x0) < 0:
+                        # if f(x0) does not sufficiently round to zero, and is larger than 0, it
                         # is assumed that the zero is inbetween x0 and x2
                         self.__x1 = self.__x0
-                        # the value of x1 is assigned to x0, breaking the while loop above
+                        # the value of x1 is assigned to x0, breaking the inner while loop above
                         # and restarting the algorithm with a new x1 value
-                    elif Polynomial.f(self.__x0) < 0:
-                        # if x0 does not sufficiently round to zero, and is larger than 0, it
+                    elif Polynomial.f(self.__poly, self.__x0) > 0:
+                        # if f(x0) does not sufficiently round to zero, and is smaller than 0, it
                         # is assumed that the zero is inbetween x1 and x0
                         self.__x2 = self.__x0
+                        # the value of x0 is assigned to x2, breaking the inner while loop above
+                        # and restarting the algorithm with a new x2 value
                     else:
                         return "error"
     
@@ -185,16 +206,54 @@ class IVT():
 
 #from polynomial import Polynomial
 
-P = Polynomial([0, 0, 1, 2, 0, 3, 0, 0])
-print(P)
-for i in range(10):
- print(i, P.f(i))
-print("The order is", P.get_order())
+# P = Polynomial([0, 0, 1, 2, 0, 3, 0, 0])
+# print(P)
+# for i in range(10):
+#  print(i, P.f(i))
+# print("The order is", P.get_order())
+# 
+# P = Polynomial([0, 0, 0, 0, 0, 0, 0, 0])
+# print(P)
+# for i in range(10):
+#  print(i, P.f(i))
+# print("The order is", P.get_order())
+# 
+# P = Polynomial([9, 9, 9, 9, 9, 9, 9, 9])
+# print(P)
+# for i in range(10):
+#  print(i, P.f(i))
+# print("The order is", P.get_order())
+# 
+# P = Polynomial([0, 1, 2, 3, 4, 5, 6, 7])
+# print(P)
+# for i in range(10):
+#  print(i, P.f(i))
+# print("The order is", P.get_order())
+# 
+# P = Polynomial([-8, -7, -6, -5, -4, -3, -2, -1])
+# print(P)
+# for i in range(10):
+#  print(i, P.f(i))
+# print("The order is", P.get_order())
+# 
+# P = Polynomial([8.57, 6.65, 5.5, 4.65, 3.65, 2.65, -1.54, 0.5426])
+# print(P)
+# for i in range(10):
+#  print(i, P.f(i))
+# print("The order is", P.get_order())
+# 
+# P = Polynomial([3, 2, 1])
+# print(P)
+# for i in range(10):
+#  print(i, P.f(i))
+# print("The order is", P.get_order())
+
+
+
 
 # polynomial driver ends here
 
 # ivtdriver.py starts here
-
 
 
 # Irash Gilani
@@ -212,6 +271,10 @@ print("The order is", P.get_order())
 
 #from IVT import IVT
 
-IVT(P, -2, -1)
+P = Polynomial([0, 0, 1, 2, 0, 3, 0, 0])
+
+zero = IVT(P, -4, 1)
+
+print(zero.solve())
 
 # ivtdriver.py ends here
