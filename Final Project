@@ -40,9 +40,7 @@ class Polynomial:
             
         for exp in range(len(self.__coeffs) - 1, -1, -1):
         # goes backwards through self.__coeffs to find the exponent of the first variable
-            if exp == None:
-                return 0
-            elif exp == len(self.__coeffs) - 1:
+            if exp == len(self.__coeffs) - 1:
                 return exp
             
         
@@ -57,7 +55,7 @@ class Polynomial:
             # to the first coefficient
             
             if idx == len(self.__coeffs) - 1:
-                # if the loop is on the last coefficient in self.__coeffs,
+                # if the loop is on the second last coefficient in self.__coeffs,
                 # add the coefficient times x without an exponent
                 self.__y += self.__coeffs[idx] * x
             else:
@@ -124,14 +122,13 @@ class IVT():
 # two x values and a Polynomial object
     def __init__(self, Poly, x1, x2):
         
-    
         self.__x1 = x1
         self.__x2 = x2
         self.__poly = Poly
         self.__zerofound = False
         
 
-    def solve(self):
+    def find(self):
     
         while self.__zerofound == False:
             # a while loop that will always run until a value is returned
@@ -140,7 +137,13 @@ class IVT():
             self.__preconditionsmet = False
             
             # below code is for checking if the preconditions are met
-            if self.__x1 != self.__x2:
+            if self.__x1 == self.__x2:
+            # x1 and x2 are equal, only check if f(x1) = 0 to find
+            # a zero
+                if Polynomial.f(self.__poly, self.__x1) == 0:
+                    return self.__x1
+            
+            elif self.__x1 != self.__x2:
             # first precondition is whether or not x1 is unequal to x2
             # if the first precondition is true, move on to the next precondition
             
@@ -163,25 +166,50 @@ class IVT():
                 self.__x0 = (self.__x1 + self.__x2) / 2
                 
                 
-                while (self.__x1 < self.__x0 < self.__x2):
-                    if ("%.3f" % Polynomial.f(self.__poly, self.__x0)) == "0.000":
-                        # if f(x0) is sufficiently close enough to zero, to the point where it 
-                        # can be rounded down to 0.000, than x0 will be returned
-                        return self.__x0
-                    elif Polynomial.f(self.__poly, self.__x0) < 0:
-                        # if f(x0) does not sufficiently round to zero, and is larger than 0, it
-                        # is assumed that the zero is inbetween x0 and x2
-                        self.__x1 = self.__x0
-                        # the value of x1 is assigned to x0, breaking the inner while loop above
-                        # and restarting the algorithm with a new x1 value
-                    elif Polynomial.f(self.__poly, self.__x0) > 0:
-                        # if f(x0) does not sufficiently round to zero, and is smaller than 0, it
-                        # is assumed that the zero is inbetween x1 and x0
-                        self.__x2 = self.__x0
-                        # the value of x0 is assigned to x2, breaking the inner while loop above
-                        # and restarting the algorithm with a new x2 value
-                    else:
-                        return "error"
+                if self.__x1 < self.__x2:
+                    while (self.__x1 < self.__x0 < self.__x2):
+                        print(Polynomial.f(self.__poly, self.__x0))
+                        print("rounded", round(Polynomial.f(self.__poly, self.__x0), 3))
+                        if round(Polynomial.f(self.__poly, self.__x0), 3) == 0.000:
+                            # if f(x0) is sufficiently close enough to zero, to the point where it 
+                            # can be rounded down to 0.000, than x0 will be returned
+                            return self.__x0
+                        elif Polynomial.f(self.__poly, self.__x0) > 0:
+                            # if f(x0) does not sufficiently round to zero, and is smaller than 0, it
+                            # is assumed that the zero is inbetween x0 and x2
+                            self.__x1 = self.__x0
+                            # the value of x1 is assigned to x0, breaking the inner while loop above
+                            # and restarting the algorithm with a new x1 value
+                        elif Polynomial.f(self.__poly, self.__x0) < 0:
+                            # if f(x0) does not sufficiently round to zero, and is larger than 0, it
+                            # is assumed that the zero is inbetween x1 and x0
+                            self.__x2 = self.__x0
+                            # the value of x0 is assigned to x2, breaking the inner while loop above
+                else:
+                # if x1 is bigger than x2, perform the same operation as above but with < and > 
+                # reversed in the elif statements
+                    while (self.__x1 > self.__x0 > self.__x2):
+                        if round(Polynomial.f(self.__poly, self.__x0), 3) == 0.000:
+                            # if f(x0) is sufficiently close enough to zero, to the point where it 
+                            # can be rounded down to 0.000, than x0 will be returned
+                            return self.__x0
+                        elif Polynomial.f(self.__poly, self.__x0) < 0:
+                            # if f(x0) does not sufficiently round to zero, and is larger than 0, it
+                            # is assumed that the zero is inbetween x0 and x2
+                            self.__x1 = self.__x0
+                            # the value of x1 is assigned to x0, breaking the inner while loop above
+                            # and restarting the algorithm with a new x1 value
+                        elif Polynomial.f(self.__poly, self.__x0) > 0:
+                            # if f(x0) does not sufficiently round to zero, and is smaller than 0, it
+                            # is assumed that the zero is inbetween x1 and x0
+                            self.__x2 = self.__x0
+                            # the value of x0 is assigned to x2, breaking the inner while loop above
+                    
+                
+                
+                
+                
+                    
     
                     
 
@@ -271,10 +299,13 @@ class IVT():
 
 #from IVT import IVT
 
-P = Polynomial([0, 0, 1, 2, 0, 3, 0, 0])
+#P = Polynomial([0, 0, 1, 2, 0, 3, 0, 0])
+#P = Polynomial([-5, 1, 0, 7, 0, 5, 2, 2])
+P = Polynomial([0, 1, 0, 2, 3, 0, 0, 0])
+print(P)
 
-zero = IVT(P, -4, 1)
+zero = IVT(P, -0.3, 0.1)
 
-print(zero.solve())
+print(zero.find())
 
 # ivtdriver.py ends here
