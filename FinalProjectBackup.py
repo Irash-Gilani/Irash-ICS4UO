@@ -5,14 +5,23 @@
 # Polynomial Object for the Final Project
 
 # Variable Dictionary:
-#
-#
-#
-#
-#
-#
-#
-#
+# self.__coeffs - an array consisting of the coefficients of a polynomial, with the leading
+# zeroes removed
+# self.__pastleading zeroes - a boolean that checks for whether or not the leading zeroes
+# have been passed while a loop goes through an inputted array to append coefficents to
+# self.__coeffs 
+# idx - a step value for going through the inputted array in a loop
+# exp - a step value for going backwards through self.__coeffs, representing
+# the value of the current exponent
+# self.__y - a float value returned from calculating f(x)
+# self.__exponent - an integer that is increased by one on every step of the loop
+# going through self.__coeffs during the calculation of f(x), whenever the step
+# is not on the second last value of self.__coeffs
+# self.__index - an integer that is increased by one along with exp during the
+# filling of self.__polystring
+# self.__polystring - a string that contains the polynomial consisting of its
+# coefficients and exponent values in proper format to be printed
+
 
 class Polynomial:
     def __init__(self, coefficients):
@@ -107,13 +116,23 @@ class Polynomial:
 # IVT Object for the Final Project
 
 # Variable Dictionary:
-#
-#
-#
-#
-#
-#
-#
+# self.__poly - A Polynomial object that is inputted when
+# the IVT object is called
+# self.__x1 - the first x value as an inputted float or integer that supposedly has
+# the zero in between it and x2
+# self.__x2 - the second x value as an inputted float or integer that supposedly has
+# the zero in between it and x1
+# self.__zerofound - a boolean that is always False until the IVT algorithm returns an
+# x intercept or a string informing the user that there is no zero between the inputted
+# x values
+# self.__preconditionsmet - a boolean that checks for an unequality and opposite signs 
+# between self.__x1 and self.__x2 and returns True if both checks are successful,
+# letting the IVT algorithm commence
+# self.__y1 - a float representing f(self.__x1)
+# self.__y2 - a float representing f(self.__x2)
+# self.__x0 - the average of self.__x1 and self.__x2, which is to be checked
+# if it is sufficiently close to zero
+
 
 #from polynomial import Polynomial
 
@@ -123,6 +142,7 @@ class IVT():
 
 
     def __init__(self, Poly):
+        # Poly is a Polynomial object
         
         self.__poly = Poly
         
@@ -236,13 +256,8 @@ class IVT():
 # Driver Code for the Polynomial Object in the Final Project
 
 # Variable Dictionary:
-#
-#
-#
-#
-#
-#
-#
+# P - A Polynomial object
+
 
 #from polynomial import Polynomial
 
@@ -301,13 +316,9 @@ class IVT():
 # Driver Code for the IVT Object in the Final Project
 
 # Variable Dictionary:
-#
-#
-#
-#
-#
-#
-#
+# P - A Polynomial object
+# zero - an IVT object
+
 
 #from IVT import IVT
 
