@@ -198,7 +198,7 @@ class IVT():
                 else:
                 # if f(x1) is bigger than f(x2), perform the same operation as above but with all of the
                 # < and > checks reversed
-                    while (self.__x1 > self.__x0 > self.__x2):
+                    while (self.__x1 < self.__x0 < self.__x2):
                         if round(Polynomial.f(self.__poly, self.__x0), 3) == 0.000:
                             # if f(x0) is sufficiently close enough to zero, to the point where it 
                             # can be rounded down to 0.000, than x0 will be returned
@@ -311,13 +311,13 @@ class IVT():
 
 #from IVT import IVT
 
-#P = Polynomial([0, 0, 1, 2, 0, 3, 0, 0])
+P = Polynomial([0, 0, 1, 2, 0, 3, 0, 0])
 
 #P = Polynomial([-5, 1, 0, 7, 0, 5, 2, 2])
 
 #P = Polynomial([0, 1, 0, 2, 3, 0, 0, 0])
 
-P = Polynomial([-5, 0, 2, 1, 0, 0])
+#P = Polynomial([-5, 0, 2, 1, 0, 0])
 
 #P = Polynomial([2, 0, 5, 2, 0, 0,])
 
@@ -325,7 +325,7 @@ print(P)
 
 zero = IVT(P)
 
-print(zero.findZero(0.5, 1.5))
+print(zero.findZero(-3, -2))
 #print(zero.findZero(0, 0))
 #print(zero.findZero(-999999999999999, 99999999999999999999))
 
