@@ -125,7 +125,7 @@ class Polynomial:
 # self.__zerofound - a boolean that is always False until the IVT algorithm returns an
 # x intercept or a string informing the user that there is no zero between the inputted
 # x values
-# self.__preconditionsmet - a boolean that checks for an unequality and opposite signs 
+
 # between self.__x1 and self.__x2 and returns True if both checks are successful,
 # letting the IVT algorithm commence
 # self.__y1 - a float representing f(self.__x1)
@@ -152,12 +152,12 @@ class IVT():
         self.__x1 = x1
         self.__x2 = x2
         self.__zerofound = False
+        self.__xunequal = False
+        self.__xopposite = False
+        self.__prevx0 = 0
     
         while self.__zerofound == False:
             # a while loop that will always run until a value is returned
-            
-            # self.__x1 is assumed to be smaller than self.__x2
-            self.__preconditionsmet = False
             
             # below code is for checking if the preconditions are met
             if self.__x1 == self.__x2:
@@ -168,6 +168,7 @@ class IVT():
             
             elif self.__x1 != self.__x2:
                 #print("unequal")
+                self.__xunequal = True
             # first precondition is whether or not x1 is unequal to x2
             # if the first precondition is true, move on to the next precondition
             
@@ -180,23 +181,61 @@ class IVT():
                 # second precondition is whether or not the sign of f(x1) is the opposite of the sign of f(x2),
                 # this is checked by looking at whether or not one variable is smaller than zero while the
                 # other is bigger than zero
-                    self.__preconditionsmet = True
+                    self.__xopposite = True
+
                     
             self.__x0 = (self.__x1 + self.__x2) / 2
             print("(%f + %f) / 2 = %f" % (self.__x1, self.__x2, self.__x0))
             print("x0 =", self.__x0, "x1 =", self.__x1, "x2 =", self.__x2)
                     
-            if self.__preconditionsmet == False:
-                # if the preconditions are not met, it is assumed that no solution exists
+            if self.__xopposite and self.__xunequal == False:
+                # if neither of the preconditions are not met, it is assumed that no solution exists
                 return ("There is no solution between %.2f and %.2f" % (self.__x1, self.__x2))
+            elif self.__xopposite == False and self.__xunequal == True:
+                # if the two x values are unequal but with the same sign in y,
+                # the line of the graph could be bouncing off of the x axis to form a zero,
+                # instead of passing through
+                
+                print(self.__prevx0, self.__x0)
+                
+                # TODO fix how the value of prevx0 is always eventaully many more decimal places than x0,
+                # despite pretty much being the same number, when x1 and x2 average into a max/min
+                
+                if self.__x0 == self.__prevx0:
+                    # if the current value of x0 is the same as the previous value of x0, then
+                    # the algorithim is looping infinitely, meaning that there is no x intercept
+                    return ("There is no solution between %.2f and %.2f" % (self.__x1, self.__x2))
+                
+                while (self.__x1 < self.__x0 < self.__x2):
+                    if round(Polynomial.f(self.__poly, self.__x0), 3) == 0.000:
+                            # if f(x0) is sufficiently close enough to zero, to the point where it 
+                            # can be rounded down to 0.000, than x0 will be returned
+                            return self.__x0
+                    elif self.__x0 > 0:
+                        # if f(x0) does not sufficiently round to zero, and is larger than 0, it
+                        # is assumed that the zero is inbetween x1 and x0
+                        self.__prevx0 = self.__x0
+                        self.__x2 = self.__x0
+                        #print("x2 = x0")
+                        # the value of x0 is assigned to x2, breaking the inner while loop above
+                    elif self.__x0 < 0:
+                        # if f(x0) does not sufficiently round to zero, and is smaller than 0, it
+                        # is assumed that the zero is inbetween x0 and x2
+                        self.__prevx0 = self.__x0
+                        self.__x1 = self.__x0
+                        #print("x1 = x0")
+                        # the value of x1 is assigned to x0, breaking the inner while loop above
+                        # and restarting the algorithm with a new x1 value
+            
+                    
             else:
-                # if the preconditions are met, the average of x1 and x2 is found
+                # if both of the preconditions are met, the average of x1 and x2 is found
                 #self.__x0 = (self.__x1 + self.__x2) / 2
                 
                 
                 if Polynomial.f(self.__poly, self.__x1) < Polynomial.f(self.__poly, self.__x2):
                     while (self.__x1 < self.__x0 < self.__x2):
-                        print("f(x0) =", Polynomial.f(self.__poly, self.__x0))
+                        #print("f(x0) =", Polynomial.f(self.__poly, self.__x0))
                         #print("rounded", round(Polynomial.f(self.__poly, self.__x0), 3))
                         if round(Polynomial.f(self.__poly, self.__x0), 3) == 0.000:
                             # if f(x0) is sufficiently close enough to zero, to the point where it 
@@ -317,7 +356,8 @@ class IVT():
 
 # Variable Dictionary:
 # P - A Polynomial object
-# zero - an IVT object
+# zero - an IVT object, for getting the x intercept
+# of the Polynomial object
 
 
 #from IVT import IVT
@@ -336,7 +376,7 @@ print(P)
 
 zero = IVT(P)
 
-print(zero.findZero(-3, -2))
+print(zero.findZero(-2.2, -1))
 #print(zero.findZero(0, 0))
 #print(zero.findZero(-999999999999999, 99999999999999999999))
 
