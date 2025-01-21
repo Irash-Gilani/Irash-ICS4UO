@@ -161,6 +161,17 @@ class IVT():
         self.__xunequal = False
         self.__xopposite = False
         self.__prevx0 = 0
+        
+        if Polynomial.f(self.__poly, self.__x1) > Polynomial.f(self.__poly, self.__x2):
+            # because the IVT algorithm works with the assumption that the inputted x1 value
+            # has a lower f(x) than the inputted x2's f(x2), if f(x1) is larger than f(x2),
+            # the values must be swapped
+            self.__temp = self.__x1
+            self.__x1 = self.__x2
+            self.__x2 = self.__temp
+                        
+            print(self.__x1, ">", self.__x2)
+        
     
         while self.__zerofound == False:
             # a while loop that will always run until a value is returned
@@ -182,6 +193,9 @@ class IVT():
                 self.__y2 = Polynomial.f(self.__poly, self.__x2)
                 # the values of f(x1) and f(x2) are initialized
                 
+                print(self.__x1, self.__y1)
+                print(self.__x2, self.__y2)
+                
                 if ((self.__y1 > 0 and self.__y2 < 0) or (self.__y1 < 0 and self.__y2 > 0)):
                     #print("opposite")
                 # second precondition is whether or not the sign of f(x1) is the opposite of the sign of f(x2),
@@ -189,108 +203,45 @@ class IVT():
                 # other is bigger than zero
                     self.__xopposite = True
 
-            # the average of x1 and x2 is found        
             self.__x0 = (self.__x1 + self.__x2) / 2
+            # the average of x1 and x2 is found     
             print("(%f + %f) / 2 = %f" % (self.__x1, self.__x2, self.__x0))
             print("x0 =", self.__x0, "x1 =", self.__x1, "x2 =", self.__x2)
-            
-            # if x1 and x2 are identical apart from opposite signs, check for a zero between them
-            if Polynomial.f(self.__poly, self.__x0) == 0:
-                return self.__x0
                     
             if self.__xopposite and self.__xunequal == False:
-                # if neither of the preconditions are not met, it is assumed that no solution exists
+                # if neither of the preconditions are met, it is assumed that no solution exists
                 return ("There is no solution between %.2f and %.2f" % (self.__dispx1, self.__dispx2))
+            
             elif self.__xopposite == False and self.__xunequal == True:
-                # if the two x values are unequal but with the same sign in y,
-                # the line of the graph could possibly be bouncing off of the x axis to
-                # form a zero, instead of passing through
-                
-                print(self.__prevx0, self.__x0)
-                
-                if round(self.__x0, 3) == round(self.__prevx0, 3):
-                    # if the current value of x0 is the roughly the same as the previous value of x0, then
-                    # the algorithim is looping infinitely, meaning that there is no x intercept
-                    return ("There is no solution between %.2f and %.2f" % (self.__dispx1, self.__dispx2))
-                
+                    return ("The y values of %.2f and %.2f must have opposite signs for the IVT program to work. Closing." % (self.__dispx1, self.__dispx2))
+            
+            else:
+            
+                # if both preconditions are met, the IVT algorithm commences
+                # as written in the instructions
                 while (self.__x1 < self.__x0 < self.__x2):
+                    #print("f(x0) =", Polynomial.f(self.__poly, self.__x0))
+                    #print("rounded", round(Polynomial.f(self.__poly, self.__x0), 3))
                     if round(Polynomial.f(self.__poly, self.__x0), 3) == 0.000:
-                            # if f(x0) is sufficiently close enough to zero, to the point where it 
-                            # can be rounded down to 0.000, than x0 will be returned
-                            return self.__x0
-                    elif self.__x0 > 0:
-                        # if f(x0) does not sufficiently round to zero, and is larger than 0, it
-                        # is assumed that the zero is inbetween x1 and x0
-                        self.__prevx0 = self.__x0
-                        self.__x2 = self.__x0
-                        #print("x2 = x0")
-                        # the value of x0 is assigned to x2, breaking the inner while loop above
-                    elif self.__x0 < 0:
-                        # if f(x0) does not sufficiently round to zero, and is smaller than 0, it
+                        # if f(x0) is sufficiently close enough to zero, to the point where it 
+                        # can be rounded down to 0.000, than x0 will be returned
+                        return self.__x0
+                    elif Polynomial.f(self.__poly, self.__x0) < 0:
+                        # if f(x0) does not sufficiently round to zero, and is bigger than 0, it
                         # is assumed that the zero is inbetween x0 and x2
-                        self.__prevx0 = self.__x0
                         self.__x1 = self.__x0
                         #print("x1 = x0")
                         # the value of x1 is assigned to x0, breaking the inner while loop above
                         # and restarting the algorithm with a new x1 value
-            
-                    
-            else:
-                
-                if Polynomial.f(self.__poly, self.__x1) < Polynomial.f(self.__poly, self.__x2):
-                    print(2158912508962135)
-                    while (self.__x1 < self.__x0 < self.__x2) :
-                        #print("f(x0) =", Polynomial.f(self.__poly, self.__x0))
-                        #print("rounded", round(Polynomial.f(self.__poly, self.__x0), 3))
-                        if round(Polynomial.f(self.__poly, self.__x0), 3) == 0.000:
-                            # if f(x0) is sufficiently close enough to zero, to the point where it 
-                            # can be rounded down to 0.000, than x0 will be returned
-                            return self.__x0
-                        elif Polynomial.f(self.__poly, self.__x0) < 0:
-                            # if f(x0) does not sufficiently round to zero, and is smaller than 0, it
-                            # is assumed that the zero is inbetween x0 and x2
-                            self.__x1 = self.__x0
-                            #print("x1 = x0")
-                            # the value of x1 is assigned to x0, breaking the inner while loop above
-                            # and restarting the algorithm with a new x1 value
-                        elif Polynomial.f(self.__poly, self.__x0) > 0:
-                            # if f(x0) does not sufficiently round to zero, and is larger than 0, it
-                            # is assumed that the zero is inbetween x1 and x0
-                            self.__x2 = self.__x0
-                            #print("x2 = x0")
-                            # the value of x0 is assigned to x2, breaking the inner while loop above
-                else:
-                # if f(x1) is bigger than f(x2), perform the same operation as above but with all of the
-                # < and > checks reversed
-                    while (self.__x1 < self.__x0 < self.__x2):
-                        if round(Polynomial.f(self.__poly, self.__x0), 3) == 0.000:
-                            # if f(x0) is sufficiently close enough to zero, to the point where it 
-                            # can be rounded down to 0.000, than x0 will be returned
-                            return self.__x0
-                        elif Polynomial.f(self.__poly, self.__x0) > 0:
-                            # if f(x0) does not sufficiently round to zero, and is larger than 0, it
-                            # is assumed that the zero is inbetween x0 and x2
-                            self.__x1 = self.__x0
-                            #print("x1 = x0")
-                            # the value of x1 is assigned to x0, breaking the inner while loop above
-                            # and restarting the algorithm with a new x1 value
-                        elif Polynomial.f(self.__poly, self.__x0) < 0:
-                            # if f(x0) does not sufficiently round to zero, and is smaller than 0, it
-                            # is assumed that the zero is inbetween x1 and x0
-                            self.__x2 = self.__x0
-                            #print("x2 = x0")
-                            # the value of x0 is assigned to x2, breaking the inner while loop above
-                    
+                    elif Polynomial.f(self.__poly, self.__x0) > 0:
+                        # if f(x0) does not sufficiently round to zero, and is smaller than 0, it
+                        # is assumed that the zero is inbetween x1 and x0
+                        self.__x2 = self.__x0
+                        #print("x2 = x0")
+                        # the value of x0 is assigned to x2, breaking the inner while loop above
+                                
                 
                 
-                
-                
-                    
-    
-                    
-
-        
-
 # IVT.py ends here
 
 # polynomial driver starts here
@@ -367,9 +318,9 @@ class IVT():
 
 #from IVT import IVT
 
-P = Polynomial([0, 0, 1, 2, 0, 3, 0, 0])
+#P = Polynomial([0, 0, 1, 2, 0, 3, 0, 0])
 
-#P = Polynomial([-5, 1, 0, 7, 0, 5, 2, 2])
+P = Polynomial([-5, 1, 0, 7, 0, 5, 2, 2])
 
 #P = Polynomial([0, 1, 0, 2, 3, 0, 0, 0])
 
@@ -381,7 +332,7 @@ print(P)
 
 zero = IVT(P)
 
-print(zero.findZero(-3, 3))
+print(zero.findZero(1, 2))
 #print(zero.findZero(0, 0))
 #print(zero.findZero(-999999999999999, 99999999999999999999))
 
